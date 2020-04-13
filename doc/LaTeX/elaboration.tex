@@ -1,105 +1,36 @@
-\section{Lineares Sortieren}
+\section{Prerequisites}
 
-Folgender Algorithmus implementiert das Sortieren in Laufzeitkomplexität \textit{O(n)}.\\
+This tutorial requires the ModelSim simulator software to be installed.
+Furthermore, it is recommended to work on a PC that runs a Linux operating system.
 
-% \sourceCodeCpp[15-51]{../bsp1_LinearSort/linearsort.cpp}
+\section{Preparation}
 
-Der Algorithmus sortiert die Werte, indem er sie auf einen Zahlenstrahl aufträgt. Der Zahlenstrahl wird als Array implementiert. Der zu sortierende Wert ist gleichzeitig der Index im Array. Daher muss der Array mindestens so lang sein, als der Wert des größten Elementes.
+This tutorial aims to explain UVVM and work with it.
+Thus, we do not want to lose time with the environment setup.
+So in order to be able to follow the tutorial, please complete the
+following steps in advance.
 
-\subsection{Performance Vergleich mit anderen Implementierungen}
+\subsection{Install ModelSim}
 
-Die Laufzeit wurde in Abhängigkeit der Anzahl der zu sortierenden Elemente gemessen. Hierbei wurde der Maximalwert der Elemente stets konstant gehalten.
+Any version of ModelSim should satisfy this tutorials' requirement.\\
 
-% \includepicture [1][0] {Messung mit variabler Elementeanzahl und fixem Maximalwert max\_val = 50} {documents/bsp1_max50_Nvar}
-% \includepicture [1][0] {Messung mit variabler Elementeanzahl und fixem Maximalwert max\_val = 1000} {documents/bsp1_max1000_Nvar}
+In case you are using ModelSim Intel Starter Version, you might need to
+create a symlink in the installation directory.
+\begin{itemize}
+  \item Go to the ModelSim installation directory\\
+        (e.g. \texttt{/opt/intelFPGA/19.1/modelsim\_ase})
+  \item Create a symlink from \texttt{linuxaloem} to \texttt{linuxpe}.\\
+        (\texttt{sudo ln -s linuxaloem/ linuxpe})
+\end{itemize}
 
-Es stellt sich heraus, dass der QuickSort Algorithmus mit Abstand die schlechteste Performance aufweist. Das liegt daran, dass dieser rekursive Aufrufe durchführt um Elemente zu sortieren. Das generiert einen tiefen Stack, welcher dann wieder abgebaut werden muss.\\
+Verify, that ModelSim can be found. Execute the following command in a command line.\\
 \\
-Der neu implementierte LinearSort ist der effizienteste aller getesteten Algorithmen.\\
+\texttt{vsim -version}
+
+\subsection{Clone the tutorials' repository}
+
+Several sources required by this tutorial can be found in a GitHub repository.\\
+Download, or clone the repository.\\
 \\
-Auffallend ist, dass std::sort für größere Maximalwerte relativ schlecht wird in der Leistung.\\
-\\
-Alle Tests wurden wiederholt durchgeführt - diesmal wurde die Anzahl der Elemente fixiert, und hingegen der Maximalwert variiert.
-
-% \includepicture [1][0] {Messung mit fixer Elementeanzahl N = 10.000 und variablem Maximalwert} {documents/bsp1_N10k_maxvar}
-
-Interessanterweise verhalten sich alle Algorithmen in etwa linear mit dem Maximalwert. Entgegen der Erwartungen bleibt LinearSort immer noch performant. Es wurde erwartet, dass bei hohen Maximalwerten die Laufzeit erheblich länger wird, da das angelegte Array sehr groß wird. Zur Erinnerung: der Maximalwert ist gleichzeitig die Arraylänge.\\
-\\
-Auffallend ist jedoch, dass QuickSort extrem schlecht für kleine Maximalwerte funktioniert. Viele Elemente, aber ein kleiner Maximalwert bedeutet, dass es sehr viele gleiche Werte im Array gibt. Dadurch wird das Partitionieren unausgewogen, und QuickSort läuft nahe seiner Worst Case Complexity $O(N^2)$.
-
-\newpage
-\subsection{Enable/Disable Auto-Vektorisierung im Code}
-
-Um den Entwicklungsprozess möglichst effizient zu gestalten, wurde ein eigenes Makro definiert. Dadurch kann die Autovektorisierung an einer zentralen Stelle ein- bzw. ausgeschalten werden.\\
-
-% \sourceCodeCpp[15-21]{../bsp3_SSE_SIMDExtension/sad.cpp}
-
-
-\section{Strip Mining und Loop Sectioning}
-
-Strip Mining ist ein Überbegriff für die Optimierung von Memory Performance in Schleifen. Zusätzlich wird dadurch ermöglicht, SIMD Instruktionen zu verwenden.
-
-\subsection{Konzept und Vorteile}
-
-Das Grundkonzept dabei ist, eine lange einzelne Schleife in mehrere Segmente aufzuteilen. Dadurch wird der Cache besser genutzt - so können Daten in wiederholten Durchläufen besser wiederverwendet werden. Weiters wird dadurch die Anzahl der Schleifendurchläufe verringert und oft die Verwendung von SIMD Instruktionen ermöglicht. Mit SIMD Instruktionen, werden Berechnungen in die Vektoreinheiten ausgelagert, wo die selbe Operation gleichzeitig auf mehrere Daten parallel ausgeführt wird.\\
-\\
-Folgendes Beispiel zeigt, wie man für eine einfache Schleife vorgehen würde.\\
-
-% \sourceCodeCpp[]{documents/bsp1_minimal_example.cpp}
-
-\subsection{Implementierung eines Beispiels}
-
-Es wurden mehrere Beispiele implementiert. \\
-Das erste Beispiel vergleicht eine herkömmliche Vector Multiplikation mit einer optimierten Version. Diese wendet Strip-Mining an - genauer Loop Blocking mit Loop Unrolling. Dadurch soll ermöglicht werden, dass SIMD Instruktionen verwendet werden.\\
-
-% \sourceCodeCpp[31-72]{../bsp2_StripMining/loop_optimizing.cpp}
-
-Das zweite Beispiel implementiert eine Matrix Addition mit Loop Blocking.\\
-
-% \sourceCodeCpp[74-128]{../bsp2_StripMining/loop_optimizing.cpp}
-
-
-\subsection{Ergebnisse}
-
-Der Testtreiber generiert folgenden Output.\\
-
-% \textFile[2cm]{documents/bsp2_console_output.txt}
-
-Der Performance Gewinn liegt hier im Mittel bei einem Faktor von 1.3-1.7 bei Vektormultiplikation und etwa 0.9-1.3 bei Matrixaddition. Theoretisch würde ein Faktor von 4 erreicht, da die Blocksize mit 4 gewählt wurde, und Vektoreinheiten ebenso 4 Operationen parallel ausführen könnte. Jedoch war es sehr schwierig, auftretende Effekte nachzuvollziehen. Die Faktoren schwanken sehr stark zwischen zwei Ausführungen des exakt selben Executables. Selbst bei keiner offensichtlichen Unterbrechung durch andere Prozesse (einzelne hohe Werte) kommt es häufig vor, dass die Laufzeit als Gesamtes um mindestens Faktor 2 schwankt. Ein möglicher Grund könnten Effekte des Energiesparmodus am Laptop sein (auch bei aktiver Stromversorgung).\\
-\\
-Die Auto-Vektorisierung des Visual Studio Compilers konnte keinen sichtbaren Effekt erzeugen. Die Werte liegen im oben genannten Schwankungsbereich.\\
-\\
-Generell kann vermutlich gesagt werden, dass die Auto-Vektorisierung und der Optimizer des Compilers sehr effizient arbeiten können und sich die ``manuelle Arbeit'', eine Loop umzuschreiben, in den meisten Fällen nicht bezahlt macht. \\
-\\
-
-\section{SSE (Streaming SIMD Extensions)}
-
-\subsection{Überprüfung SSE Unterstützung}
-
-Die Überprüfung, ob eine CPU die SSE Operationen unterstützt, wurde mit Hilfe der intrinsic Funktion \texttt{\_\_cpuid()} implementiert. Damit können bestimmte Speicherwerte ausgelesen werden, die dann entsprechend maskiert den unterstützten Funktionen entsprechen.\\
-
-% \sourceCodeCpp[72-104]{../bsp3_SSE_SIMDExtension/main.cpp}
-
-\subsection{Implementierung}
-
-Die Implementierung des SAD Algorithmus erfolgt in der originalen Form in einer einfachen For-Schleife.\\
-
-% \sourceCodeCpp[51-58]{../bsp3_SSE_SIMDExtension/sad.cpp}
-
-Die Implementierung mit intrinsic Funktionen wurde folgendermaßen umgesetzt. Wichtig ist hierbei, dass die Vektorgröße ein Vielfaches von 16 ist, da kein Clean-Up implementiert wurde. Das Clean-Up würde die übrig gebliebenen Elemente behandeln.\\
-
-% \sourceCodeCpp[30-49]{../bsp3_SSE_SIMDExtension/sad.cpp}
-
-Mit diesen Intrinsics werden 128 bit in einem Schritt verarbeitet. Das entspricht 16 Elementen der gegebenen 8-bit Werte. Dadurch muss der Loop-Counter \textit{i} auch um jeweils 16 inkrementiert werden. Aus diesem Grund sollte hier ein theoretischer Speed-Up Faktor von 16 möglich sein, gegenüber der sequenziellen Implementierung (ohne Auto-Vektorisierung).
-
-\subsection{Ergebnisse}
-
-Der Testtreiber generiert den folgenden Output.\\
-
-% \textFile[2cm]{documents/bsp3_console_output.txt}
-
-Der erreichte Speed-Up Faktor liegt tatsächlich sehr knapp beim theoretisch möglichen Maximalwert von 16. \\
-\\
-Der gemessene Wert schwankt jedoch in einem Bereich von 10 bis 25. Ein niedriger Wert ist dadurch begründet, dass der Prozess während der Ausführung des Tests durch das Betriebssystem unterbrochen wurde. Ein höherer Wert wird dadurch begründet, dass nach wiederholter Ausführung noch einige Daten im Cache waren. Somit ist die Ausführung schneller da nichts, oder nur wenig, aus dem Speicher geladen werden muss. Ein Speed-Up der größer dem theoretischen Maximalwert liegt, wird als \textit{``super-linearer Speed-Up''} bezeichnet.
-
+\texttt{git clone https://github.com/wurmmi/uvvm-tutorial.git}
 
