@@ -1,0 +1,51 @@
+
+\include{define}
+
+\author{Michael Wurm}
+
+\begin{document}
+
+% TITLEPAGE
+\newcommand{\UebungNr}{UVVM Tutorial}
+\newcommand{\UebungTopic}{A brief introduction to UVVM, with a\\
+	tutorial on how to use it in an example testbench.}
+\input{titlepage.tex}
+\clearpage
+
+\newpage
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+\setcounter{page}{1}  % start counting pages here
+
+% HEADER AND FOOTER
+%\pagestyle{fancy}     % eigener Seitenstil
+\thispagestyle{empty}
+\begin{minipage}[b][2.4cm]{0.7\textwidth}
+	\noindent
+	\raggedright
+	\begin{large}\textbf{%
+			FH-OOE / Hagenberg / ESD\\
+			\ \\
+		}\end{large}
+	Michael Wurm \copyright\,\the\year\\
+	\begin{large}
+		\textit{Practical FPGA Applications}\\
+		\vspace{0.0em} \textit{Introduction and Tutorial to UVVM }%
+	\end{large}
+\end{minipage}
+\hfill
+\includegraphics[height=2.2cm]{./img/FhOOeLogoFeb2005}
+\noindent \rule[0.8em]{\textwidth}{0.12mm}
+
+%\chead{Dokumentation}
+%\rhead{Michael Wurm}
+\lfoot{}
+\cfoot{-\thepage-}
+\rfoot{}
+\noindent
+
+% BEGINNING OF ELABORATION
+\input{elaboration.tex}
+
+\end{document}
