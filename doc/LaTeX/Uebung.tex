@@ -1,0 +1,53 @@
+
+\include{define}
+
+\author{Michael Wurm}
+
+\begin{document}
+
+	%ANGABE
+	\newcommand{\MichaelTimeNeeded}  {12h} 
+
+	\thispagestyle{empty}  % deletes page format
+	                       % (to disable page number at title page)
+	\includepdf[pages=1,pagecommand={
+		\begin{tikzpicture}[remember picture, overlay]\node at (4.6, -3.6)
+		{Michael Wurm};
+		\end{tikzpicture}
+		\begin{tikzpicture}[remember picture, overlay]\node at (4.2, -4.2)
+		{1910567011};
+		\end{tikzpicture}
+		\begin{tikzpicture}[remember picture, overlay]\node at (3.4, -4.7)
+		{2};
+		\end{tikzpicture}
+		\begin{tikzpicture}[remember picture, overlay]\node at (3.3, -5.2)
+		{\MichaelTimeNeeded};
+		\end{tikzpicture}
+	}]{../Uebung04.pdf}
+	\includepdf[pages=2-]{../Uebung04.pdf}
+
+	% TITLEPAGE
+	\newcommand{\UebungNr}{Übung 4}
+	\newcommand{\UebungTopic}{Laufzeit Analyse von Sort Algorithmen, Loop Optimization und Intrinsic Funktionen}
+	\input{titlepage.tex}
+	\clearpage
+
+	\newpage
+	\thispagestyle{empty}
+	\tableofcontents
+	\newpage
+	\setcounter{page}{1}  % start counting pages here
+
+	% HEADER AND FOOTER
+	\pagestyle{fancy}     % eigener Seitenstil
+	\lhead{\UebungNr}
+	\chead{Dokumentation}
+	\rhead{Michael Wurm}
+	\lfoot{}
+	\cfoot{-\thepage-}
+	\rfoot{}
+
+	% BEGINNING OF ELABORATION
+	\input{Ausarbeitung.tex}
+
+\end{document}

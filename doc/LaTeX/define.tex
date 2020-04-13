@@ -1,0 +1,218 @@
+\documentclass[11pt,a4paper,oneside]{article}
+
+% Global format settings
+\setlength\parindent{0pt}
+
+% Packages
+\usepackage[left=2.5cm,
+			right=2.5cm,
+			bottom=2cm,
+			top=2cm,
+			includeheadfoot]{geometry}
+\usepackage{booktabs}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp} %fuer Sonderzeichen wie bspw. µ
+\usepackage{ucs}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsbsy}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subfigure}
+%\usepackage{subcaption}
+\usepackage{titlesec}
+\usepackage{pdfpages}   % Zum Einbinden von pdfs
+\usepackage{tikz}       % Overlay text in pdfs
+\usepackage{fancyhdr}   % header, footer
+\usepackage{xargs}		% for more than one optional argument in \newcommand
+
+\usepackage[pdfborder={0 0 0 [0 1]},
+			pdfauthor={Wurm},
+			pdftitle={RRT5 Uebung},
+			pdfsubject={RRT5 Uebung},
+			colorlinks=true,
+			linkcolor=black,
+			citecolor=black,
+			urlcolor=blue] {hyperref}
+
+\definecolor{mygray}{rgb}{0.97,0.97,0.97}
+
+% settings for sectioning
+\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in TableOfContent
+\titlespacing*{\paragraph}{0pt}{2\baselineskip}{3\baselineskip}
+
+%new command: extracts Filename from Path
+\makeatletter
+\DeclareRobustCommand{\getFileNameFromPath}{%
+	\begingroup
+	% \lstname seems to change hyphens into \textendash
+	\def\textendash{-}%
+	\filename@parse{\lstname}%
+	\texttt{\filename@base.\filename@ext}%
+	\endgroup
+}
+\makeatother
+
+\lstset
+{
+	literate={ö}{{\"o}}1
+	{ä}{{\"a}}1
+	{ü}{{\"u}}1
+	{ß}{{\ss}}1
+	{é}{{\'e}}1
+	{€}{{\euro}}1,
+	inputencoding=ansinew,
+	extendedchars=true,
+	basicstyle=\scriptsize\ttfamily,
+	numberstyle=\scriptsize,
+	breaklines=true,
+	tabsize=2,
+	numbersep=5pt
+}
+
+\lstdefinestyle{customcpp}
+{
+	language=C++,					          % language
+	backgroundcolor=\color{mygray},			  % background color of text
+	frame=single,							  % surrounding of text
+	xleftmargin=0.6cm,
+	numbers=left,							  % show line numbers
+	firstnumber=1,							  % starting number
+	stepnumber=5,							  % starting number + n*stepnumber
+	stringstyle=\color{BrickRed}\ttfamily,	  % style of strings
+	commentstyle=\color{OliveGreen}\ttfamily, % style of comments
+	sensitive=true,							  % true is keyword, TruE is not
+	keywordstyle=\color{blue}\bfseries,		  % style of keywords
+	otherkeywords={	bool,					  % define additional keywords
+					NULL,
+					using,
+					public,
+					private,
+					class,
+					namespace,
+					nullptr,
+					size_t,
+					this,
+					true,
+					false,
+				    \#ifdef,
+				    \#ifndef,
+				    \#endif },
+	tabsize=4,								  % one tab equals 4 spaces
+	showspaces=false,						  % show symbol ,_, instead of space
+	showstringspaces=false,					  % show symbol ,_, instead of space in strings
+	showtabs=false,							  % show tabs as line
+	breaklines=true,						  % automatic line breaking of too long lines
+	captionpos=b,							  % position of title b=bottom, t=top
+	title=\getFileNameFromPath                % title
+}
+
+\lstdefinestyle{custommatlab}
+{
+	language=Matlab,
+	frame=single,							  % surrounding of text
+	backgroundcolor=\color{mygray},			  % background color of text
+	xleftmargin=0.6cm,
+	numbers=left,							  % show line numbers
+	firstnumber=1,							  % starting number
+	stepnumber=5,							  % starting number + n*stepnumber
+	breaklines=true,%
+	morekeywords={matlab2tikz},
+	keywordstyle=\color{blue},%
+	morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+	identifierstyle=\color{black},%
+	stringstyle=\color{BrickRed},
+	commentstyle=\color{OliveGreen},%
+	emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+	tabsize=4,								  % one tab equals 4 spaces
+	showspaces=false,						  % show symbol ,_, instead of space
+	showstringspaces=false,					  % show symbol ,_, instead of space in strings
+	showtabs=false,							  % show tabs as line
+	breaklines=true,						  % automatic line breaking of too long lines
+	captionpos=b,							  % position of title b=bottom, t=top
+	title=\getFileNameFromPath                % title
+}
+
+\lstdefinestyle{custombash}
+{
+	language=bash,
+	frame=single,							  % surrounding of text
+	backgroundcolor=\color{mygray},			  % background color of text
+	xleftmargin=0.6cm,
+	numbers=left,							  % show line numbers
+	firstnumber=1,							  % starting number
+	stepnumber=5,							  % starting number + n*stepnumber
+	breaklines=true,%
+	morekeywords={matlab2tikz},
+	keywordstyle=\color{blue},%
+	morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+	identifierstyle=\color{black},%
+	stringstyle=\color{BrickRed},
+	commentstyle=\color{OliveGreen},%
+	emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+	tabsize=4,								  % one tab equals 4 spaces
+	showspaces=false,						  % show symbol ,_, instead of space
+	showstringspaces=false,					  % show symbol ,_, instead of space in strings
+	showtabs=false,							  % show tabs as line
+	breaklines=true,						  % automatic line breaking of too long lines
+	captionpos=b,							  % position of title b=bottom, t=top
+	title=\getFileNameFromPath                % title
+}
+
+\lstdefinestyle{customoutput}
+{
+	backgroundcolor=\color{mygray},
+	frame=single,
+	numbers=left,
+	firstnumber=1,
+	stepnumber=5,
+	captionpos=b,
+	title=\getFileNameFromPath
+}
+
+% usage: \sourceCodeXXX[1-20, 40-50]{path}
+\newcommandx{\sourceCodeCpp}[3][1=1, 2=1]{\lstinputlisting[style=customcpp,linerange={#1}, firstnumber=#2] {#3}}
+\newcommandx{\sourceCodeMatlab}[3][1=1, 2=1]{\lstinputlisting[style=custommatlab,linerange={#1}, firstnumber=#2] {#3}}
+\newcommandx{\sourceCodeBash}[3][1=1, 2=1]{\lstinputlisting[style=custombash,linerange={#1}, firstnumber=#2] {#3}}
+
+% usage: \textFile[2cm]{path}
+\newcommand{\textFile}[2][0cm]{\lstinputlisting[xleftmargin=#1, xrightmargin=#1, style=customoutput]{#2}}
+
+% usage: \horizontalLine{0.5}
+\newcommand{\horizontalLine}[1]{\rule{\linewidth}{#1}}
+
+% usage: \includepicture [width=1] [angle=0] {caption text} {filepath}
+\newcommandx{\includepicture}[4][1=1,2=0]
+{
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=#1\textwidth,angle=#2]{\string"#4"}
+		\caption{\textit{#3}}
+	%	\label{key}
+	\end{figure}
+}
+
+% usage: \includepictureLR [angleL=0][angleR=0] {captionL text}{captionR text}{caption middle} {filepathL}{filepathR}
+\newcommandx{\includepictureLR}[7][1=0,2=0]
+{
+	\begin{figure}[H]
+		\subfigure[#3]{\includegraphics[width=0.5\textwidth,angle=#1]{\string"#6"}}
+		\subfigure[#4]{\includegraphics[width=0.5\textwidth,angle=#2]{\string"#7"}}
+		\caption{#5}
+	\end{figure}
+}
+
+% command for 4th level section -->  1.2.3.4 SectionsName
+% usage:  \subsubsubsection[0 cm]{path} % if text follows
+%         \subsubsubsection{path}       % else
+\newcommand{\subsubsubsection}[2][0.3cm]{\paragraph{#2}\mbox{} \vspace{#1} \newline }
