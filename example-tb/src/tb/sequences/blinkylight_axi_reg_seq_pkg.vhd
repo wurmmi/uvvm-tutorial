@@ -14,7 +14,6 @@ use blinkylightlib.blinkylight_pkg.all;
 
 library testbenchlib;
 use testbenchlib.blinkylight_uvvm_pkg.all;
-use testbenchlib.blinkylight_reg_pkg.all;
 
 library uvvm_util;
 context uvvm_util.uvvm_util_context;
@@ -59,63 +58,30 @@ package body blinkylight_axi_reg_seq_pkg is
     signal axi_vvc_i  : inout t_vvc_target_record;
     variable axi_sb_i : inout t_generic_sb) is
 
-    variable value_v   : bitvis_vip_axilite.vvc_cmd_pkg.t_vvc_result;
+    variable wr_data_v   : std_logic_vector(31 downto 0);
     variable cmd_idx_v : natural;
   begin
 
     await_value(start_i, true, 0 ns, 10 ns, error, "Wait for AXI_REG_SEQ to enable start.", TB_REG, ID_SEQUENCER);
 
-    log(ID_LOG_HDR, "Check default register values.", TB_REG);
-    ---------------------------------------------------------------------------
-    for i in 0 to num_registers_c - 1 loop
-      if register_map_c(i).access_type /= WRITE_ONLY then
-        axi_sb_i.add_expected(register_map_c(i).reset);
-
-        axilite_read(axi_vvc_i, 1, register_map_c(i).address, "Read register: " & get_register_name(i));
-        cmd_idx_v := shared_cmd_idx;
-        await_completion(axi_vvc_i, 1, 2 * axi_access_time_c, "Wait for read to finish.");
-        fetch_result(axi_vvc_i, 1, cmd_idx_v, value_v, "Fetching result from read operation.");
-
-        axi_sb_i.check_received(value_v(register_map_c(i).reset'range));
-      end if;
-    end loop;
-
-    check_value(axi_sb_i.is_empty(VOID), error, "Check that scoreboard is empty");
-    axi_sb_i.report_counters(VOID);
-    axi_sb_i.reset("Reset AXI scoreboard statistics for later use in other tb sequences");
-
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
-    for i in 0 to num_registers_c - 1 loop
+
+
+    -- TODO: check first register here (magic number)
+
+
+    for addr in 1 to num_registers_c - 1 loop
       -- Write
-      if register_map_c(i).access_type /= READ_ONLY then
-        axilite_write(axi_vvc_i, 1,
-                      register_map_c(i).address, not(register_map_c(i).reset),
-                      "Writing inverted reset value to " & get_register_name(i));
-      end if;
+      wr_data_v := std_logic_vector(to_unsigned(addr * 3, wr_data_v'length));
+      axilite_write(axi_vvc_i, 1,
+                      to_unsigned(addr,32), wr_data_v,
+                      "Writing inverted reset value to register address " & integer'image(addr));
 
       -- Read back
-      if register_map_c(i).access_type = READ_WRITE then
-        axilite_check(axi_vvc_i, 1,
-                      register_map_c(i).address,
-                      not(register_map_c(i).reset) and register_map_c(i).mask,
-                      "Check data in register: " & get_register_name(i));
-      end if;
-
-      -- Check interrupt registers
-      if register_map_c(i).access_type = INTERRUPT or
-        register_map_c(i).access_type = INTERRUPT_ERROR then
-        axilite_check(axi_vvc_i, 1,
-                      register_map_c(i).address, x"00000000",
-                      "Check cleared interrupts: " & get_register_name(i));
-      end if;
-
-      -- Restore defaults
-      if register_map_c(i).access_type /= READ_ONLY then
-        axilite_write(axi_vvc_i, 1,
-                      register_map_c(i).address, register_map_c(i).reset,
-                      "Restore defaults: " & get_register_name(i));
-      end if;
+      axilite_check(axi_vvc_i, 1,
+                      to_unsigned(addr,32), wr_data_v,
+                      "Check data in register address " & integer'image(addr));
     end loop;
 
     await_completion(axi_vvc_i, 1, num_registers_c*4 * axi_access_time_c, "Waiting for restoring register defaults.");
