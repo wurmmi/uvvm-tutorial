@@ -27,6 +27,9 @@ package blinkylight_pkg is
   --! System clock period
   constant clk_period_c : time := 1 sec / clk_freq_c;
 
+  --! AXI access time for a single access
+  constant axi_access_time_c : time := 4 * clk_period_c;
+
   --! Number of keys
   constant num_of_keys_c : natural := 3;
 

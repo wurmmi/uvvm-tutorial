@@ -58,7 +58,7 @@ package body blinkylight_av_mm_reg_seq_pkg is
     signal av_mm_vvc_i  : inout t_vvc_target_record;
     variable av_mm_sb_i : inout t_generic_sb) is
 
-    variable value_v   : bitvis_vip_avalon_mm.vvc_cmd_pkg.t_vvc_result;
+    variable wr_data_v   : std_logic_vector(31 downto 0);
     variable cmd_idx_v : natural;
   begin
 
@@ -66,36 +66,22 @@ package body blinkylight_av_mm_reg_seq_pkg is
 
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
-    for i in 0 to num_registers_c - 1 loop
+
+
+    -- TODO: check first register here (magic number)
+
+
+    for addr in 1 to num_registers_c - 1 loop
       -- Write
-      if register_map_c(i).access_type /= READ_ONLY then
-        avalon_mm_write(av_mm_vvc_i, 1,
-                        register_map_c(i).address, not(register_map_c(i).reset),
-                        "Writing inverted reset value to " & get_register_name(i));
-      end if;
+      wr_data_v := std_logic_vector(to_unsigned(addr * 3, wr_data_v'length));
+      avalon_mm_write(av_mm_vvc_i, 1,
+                      to_unsigned(addr,32), wr_data_v,
+                      "Writing inverted reset value to register address " & integer'image(addr));
 
       -- Read back
-      if register_map_c(i).access_type = READ_WRITE then
-        avalon_mm_check(av_mm_vvc_i, 1,
-                        register_map_c(i).address,
-                        not(register_map_c(i).reset) and register_map_c(i).mask,
-                        "Check data in register: " & get_register_name(i));
-      end if;
-
-      -- Check interrupt registers
-      if register_map_c(i).access_type = INTERRUPT or
-        register_map_c(i).access_type = INTERRUPT_ERROR then
-        avalon_mm_check(av_mm_vvc_i, 1,
-                        register_map_c(i).address, x"00000000",
-                        "Check cleared interrupts: " & get_register_name(i));
-      end if;
-
-      -- Restore defaults
-      if register_map_c(i).access_type /= READ_ONLY then
-        avalon_mm_write(av_mm_vvc_i, 1,
-                        register_map_c(i).address, register_map_c(i).reset,
-                        "Restore defaults: " & get_register_name(i));
-      end if;
+      avalon_mm_check(av_mm_vvc_i, 1,
+                      to_unsigned(addr,32), wr_data_v,
+                      "Check data in register address " & integer'image(addr));
     end loop;
 
     await_completion(av_mm_vvc_i, 1, num_registers_c*4 * axi_access_time_c, "Waiting for restoring register defaults.");
