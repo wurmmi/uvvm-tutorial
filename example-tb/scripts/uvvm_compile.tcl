@@ -17,7 +17,7 @@ set work_lib "uvvmlib"
 eval vlib $work_lib
 eval vmap $work_lib $work_lib
 
-set uvvm_dir "../UVVM"
+set uvvm_dir "../../../UVVM"
 set target_path [pwd]
 
 set parts_list [list "uvvm_util" \

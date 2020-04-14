@@ -22,14 +22,18 @@ uvvm: ##			- Compile UVVM library components.
 #endif
 	@mkdir -p ./build/sim
 	@mkdir -p ./build/log
-	@cd ./build/sim && vsim -do ../../src/utils/tcl/uvvm_compile.tcl -c 2>&1 | tee ../log/uvvm_compile.log
+	@cd ./build/sim && vsim -do ../../scripts/uvvm_compile.tcl -c 2>&1 | tee ../log/uvvm_compile.log
 	@! grep -q "\*\* Error" ./build/log/uvvm_compile.log
 	@! grep -q "\*\* Fatal" ./build/log/uvvm_compile.log
+
+clean: ##			- Clean outputs.
+	@echo "Cleaning..."
+	git clean -xdf
 
 help: ##			- Show this help message.
 	@grep -h "##" Makefile | grep -v "\"##\"" | sed -e 's/##//g'
 
-.PHONY: all uvvm help
+.PHONY: all uvvm clean help
 
 ##
 ##--------------------------------------------------------------------
