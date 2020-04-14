@@ -1,0 +1,7 @@
+################################################################################
+# File        : .gitignore
+# Author      : Michael Wurm <wurm.michael95@gmail.com>
+# Description : Local gitignore file ModelSim
+################################################################################
+
+build/
