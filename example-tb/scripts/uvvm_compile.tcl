@@ -5,17 +5,17 @@
 # brief:     Compiles UVVM components.
 #------------------------------------------------------------------------------
 
-eval transcript quietly
-eval onerror {quit -f}
-eval onbreak {quit -f}
+transcript quietly
+onerror {quit -f}
+onbreak {quit -f}
 
 # Set compiler flags
 #set vhdl_version "-2008"
 
 # Create and map work library
 set work_lib "uvvmlib"
-eval vlib $work_lib
-eval vmap $work_lib $work_lib
+vlib $work_lib
+vmap $work_lib $work_lib
 
 set uvvm_dir "../../../UVVM"
 set target_path [pwd]
@@ -33,4 +33,4 @@ foreach uvvm_part $parts_list {
   do $util_part_path/script/compile_src.do $util_part_path $target_path
 }
 
-eval quit -f
+quit -f
