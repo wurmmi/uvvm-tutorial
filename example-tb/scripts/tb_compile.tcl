@@ -34,5 +34,3 @@ if {[file isfile $ipsrc]} {
 } else {
     puts "ERROR: Could not find file '$ipsrc'"
 }
-
-quit -f
