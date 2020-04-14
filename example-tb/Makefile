@@ -48,7 +48,7 @@ clean: ##			- Clean outputs.
 help: ##			- Show this help message.
 	@grep -h "##" Makefile | grep -v "\"##\"" | sed -e 's/##//g'
 
-.PHONY: all ip uvvm clean help
+.PHONY: all ip uvvm format clean help
 
 ##
 ##--------------------------------------------------------------------

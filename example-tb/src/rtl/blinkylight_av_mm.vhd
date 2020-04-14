@@ -19,7 +19,7 @@ use blinkylightlib.blinkylight_pkg.all;
 
 entity blinkylight_av_mm is
   generic (
-    read_delay_g : NATURAL := 2);
+    read_delay_g : natural := 2);
   port (
     --! @name Clock and reset
     --! @{
@@ -31,10 +31,10 @@ entity blinkylight_av_mm is
     --! @name Avalon MM Interface
     --! @{
 
-    s1_address_i       : in std_ulogic_vector(6 downto 0);
-    s1_write_i         : in std_ulogic;
-    s1_writedata_i     : in std_ulogic_vector(31 downto 0);
-    s1_read_i          : in std_ulogic;
+    s1_address_i       : in  std_ulogic_vector(6 downto 0);
+    s1_write_i         : in  std_ulogic;
+    s1_writedata_i     : in  std_ulogic_vector(31 downto 0);
+    s1_read_i          : in  std_ulogic;
     s1_readdata_o      : out std_ulogic_vector(31 downto 0);
     s1_readdatavalid_o : out std_ulogic;
     s1_response_o      : out std_ulogic_vector(1 downto 0);
@@ -43,7 +43,7 @@ entity blinkylight_av_mm is
     --! @name Register interface
     --! @{
 
-    status_i    : in status_t;
+    status_i    : in  status_t;
     control_o   : out control_t;
     interrupt_o : out interrupt_t);
 
@@ -72,7 +72,7 @@ architecture rtl of blinkylight_av_mm is
   signal response : std_ulogic_vector(1 downto 0)                := response_decode_err_c;
   signal rresp    : std_ulogic_vector(1 downto 0)                := response_decode_err_c;
   signal wresp    : std_ulogic_vector(1 downto 0)                := response_decode_err_c;
-  signal raddr    : NATURAL range 0 to 72;
+  signal raddr    : natural range 0 to 72;
 
   signal bl_gui_control_update_enable  : std_ulogic                    := '0';
   signal bl_gui_control_blank_sevseg   : std_ulogic                    := '0';
@@ -103,7 +103,7 @@ architecture rtl of blinkylight_av_mm is
   -----------------------------------------------------------------------------
   --! @{
 
-  signal addr     : NATURAL range 0 to 72;
+  signal addr     : natural range 0 to 72;
   signal readdata : std_ulogic_vector(s1_readdata_o'range);
 
   signal bl_status_keys         : std_ulogic;
@@ -148,8 +148,8 @@ begin
 
   addr     <= to_integer(unsigned(s1_address_i));
   response <= rresp when rdvalid(rdvalid'high) = '1' else
-    wresp when s1_write_i = '1' else
-    response_decode_err_c;
+              wresp when s1_write_i = '1' else
+              response_decode_err_c;
 
   bl_status_keys         <= status_i.key;
   bl_status_fpga_running <= status_i.running;
@@ -184,9 +184,9 @@ begin
     begin
       readdata <= (others => '0');
       --rdvalid <= (others => '0');
-      rresp <= response_decode_err_c;
+      rresp    <= response_decode_err_c;
     end procedure reset;
-  begin -- process reading
+  begin  -- process reading
     if rst_n_i = '0' then
       reset;
     elsif rising_edge(clk_i) then
@@ -304,7 +304,7 @@ begin
       bl_irq_errors_key             <= '0';
       bl_irq_errors_pps             <= '0';
     end procedure reset;
-  begin -- process writing
+  begin  -- process writing
     if rst_n_i = '0' then
       reset;
     elsif rising_edge(clk_i) then
@@ -374,7 +374,7 @@ begin
           when 60 =>
             bl_sev_segment_display5_value <= s1_writedata_i(4 downto 0);
             wresp                         <= response_okay_c;
-            -- Clear interrupts
+          -- Clear interrupts
           when 68 =>
             if s1_writedata_i(0) = '1' then
               bl_irqs_key <= '0';
@@ -384,7 +384,7 @@ begin
             end if;
             wresp <= response_okay_c;
 
-            -- Clear interrupt errors
+          -- Clear interrupt errors
           when 72 =>
             if s1_writedata_i(0) = '1' then
               bl_irq_errors_key <= '0';
@@ -410,7 +410,7 @@ begin
       if
         bl_irqs_key = '1' or
         bl_irqs_pps = '1'
-        then
+      then
         bl_irqs <= '1';
       else
         bl_irqs <= '0';
@@ -419,13 +419,13 @@ begin
       -- Set interrupt errors
       if bl_irqs_key = '1' and
         bl_irqs_key_set = '1'
-        then
+      then
         bl_irq_errors_key <= '1';
       end if;
 
       if bl_irqs_pps = '1' and
         bl_irqs_pps_set = '1'
-        then
+      then
         bl_irq_errors_pps <= '1';
       end if;
 

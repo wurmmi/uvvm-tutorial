@@ -19,7 +19,7 @@ use blinkylightlib.blinkylight_pkg.all;
 
 entity blinkylight_axi is
   generic (
-    read_delay_g : NATURAL := 2);
+    read_delay_g : natural := 2);
   port (
     --! @name AXI clock and reset
     --! @{
@@ -31,18 +31,18 @@ entity blinkylight_axi is
     --! @name AXI write address
     --! @{
 
-    s_axi_awaddr_i  : in std_ulogic_vector(6 downto 0);
-    s_axi_awprot_i  : in std_ulogic_vector(2 downto 0);
-    s_axi_awvalid_i : in std_ulogic;
+    s_axi_awaddr_i  : in  std_ulogic_vector(6 downto 0);
+    s_axi_awprot_i  : in  std_ulogic_vector(2 downto 0);
+    s_axi_awvalid_i : in  std_ulogic;
     s_axi_awready_o : out std_ulogic;
 
     --! @}
     --! @name AXI write data
     --! @{
 
-    s_axi_wdata_i  : in std_ulogic_vector(31 downto 0);
-    s_axi_wstrb_i  : in std_ulogic_vector(3 downto 0);
-    s_axi_wvalid_i : in std_ulogic;
+    s_axi_wdata_i  : in  std_ulogic_vector(31 downto 0);
+    s_axi_wstrb_i  : in  std_ulogic_vector(3 downto 0);
+    s_axi_wvalid_i : in  std_ulogic;
     s_axi_wready_o : out std_ulogic;
 
     --! @}
@@ -51,15 +51,15 @@ entity blinkylight_axi is
 
     s_axi_bresp_o  : out std_ulogic_vector(1 downto 0);
     s_axi_bvalid_o : out std_ulogic;
-    s_axi_bready_i : in std_ulogic;
+    s_axi_bready_i : in  std_ulogic;
 
     --! @}
     --! @name AXI read address
     --! @{
 
-    s_axi_araddr_i  : in std_ulogic_vector(6 downto 0);
-    s_axi_arprot_i  : in std_ulogic_vector(2 downto 0);
-    s_axi_arvalid_i : in std_ulogic;
+    s_axi_araddr_i  : in  std_ulogic_vector(6 downto 0);
+    s_axi_arprot_i  : in  std_ulogic_vector(2 downto 0);
+    s_axi_arvalid_i : in  std_ulogic;
     s_axi_arready_o : out std_ulogic;
 
     --! @}
@@ -69,13 +69,13 @@ entity blinkylight_axi is
     s_axi_rdata_o  : out std_ulogic_vector(31 downto 0);
     s_axi_rresp_o  : out std_ulogic_vector(1 downto 0);
     s_axi_rvalid_o : out std_ulogic;
-    s_axi_rready_i : in std_ulogic;
+    s_axi_rready_i : in  std_ulogic;
 
     --! @}
     --! @name Register interface
     --! @{
 
-    status_i    : in status_t;
+    status_i    : in  status_t;
     control_o   : out control_t;
     interrupt_o : out interrupt_t);
 
@@ -151,7 +151,7 @@ architecture rtl of blinkylight_axi is
   signal bl_irqs_pps_set        : std_ulogic;
   --! @}
 
-begin -- architecture rtl
+begin  -- architecture rtl
 
   -----------------------------------------------------------------------------
   -- Outputs
@@ -209,7 +209,7 @@ begin -- architecture rtl
       axi_araddr  <= (others => '0');
       axi_rvalid  <= (others => '0');
     end procedure reset;
-  begin -- process regs
+  begin  -- process regs
     if s_axi_aresetn_i = '0' then
       reset;
     elsif rising_edge(s_axi_aclk_i) then
@@ -221,20 +221,20 @@ begin -- architecture rtl
       -- Write
       if axi_awready = '0' and s_axi_awvalid_i = '1' and
         s_axi_wvalid_i = '1'
-        then
+      then
         axi_awready <= '1';
         axi_awaddr  <= unsigned(s_axi_awaddr_i);
       end if;
 
       if axi_wready = '0' and s_axi_awvalid_i = '1' and
         s_axi_wvalid_i = '1'
-        then
+      then
         axi_wready <= '1';
       end if;
 
       if axi_awready = '1' and axi_wready = '1' and
         s_axi_awvalid_i = '1' and s_axi_wvalid_i = '1'
-        then
+      then
         -- NOTE: This is where the write operation happens
         -- See process "writing" below
 
@@ -255,7 +255,7 @@ begin -- architecture rtl
 
       if axi_arready = '1' and s_axi_arvalid_i = '1' and
         axi_rvalid = (axi_rvalid'range => '0')
-        then
+      then
         -- NOTE: This is where the read operation happens
         -- See process "reading" below
 
@@ -275,7 +275,7 @@ begin -- architecture rtl
       axi_rdata <= (others => '0');
       axi_rresp <= axi_addr_error_c;
     end procedure reset;
-  begin -- process reading
+  begin  -- process reading
     if s_axi_aresetn_i = '0' then
       reset;
     elsif rising_edge(s_axi_aclk_i) then
@@ -391,7 +391,7 @@ begin -- architecture rtl
       bl_irq_errors_key             <= '0';
       bl_irq_errors_pps             <= '0';
     end procedure reset;
-  begin -- process writing
+  begin  -- process writing
     if s_axi_aresetn_i = '0' then
       reset;
     elsif rising_edge(s_axi_aclk_i) then
@@ -399,7 +399,7 @@ begin -- architecture rtl
 
       if axi_awready = '1' and axi_wready = '1' and
         s_axi_awvalid_i = '1' and s_axi_wvalid_i = '1'
-        then
+      then
         -- Defaults
         axi_bresp <= axi_addr_error_c;
 
@@ -464,7 +464,7 @@ begin -- architecture rtl
           when 60 =>
             bl_sev_segment_display5_value <= s_axi_wdata_i(4 downto 0);
             axi_bresp                     <= axi_okay_c;
-            -- Clear interrupts
+          -- Clear interrupts
           when 68 =>
             if s_axi_wdata_i(0) = '1' then
               bl_irqs_key <= '0';
@@ -473,7 +473,7 @@ begin -- architecture rtl
               bl_irqs_pps <= '0';
             end if;
             axi_bresp <= axi_okay_c;
-            -- Clear interrupt errors
+          -- Clear interrupt errors
           when 72 =>
             if s_axi_wdata_i(0) = '1' then
               bl_irq_errors_key <= '0';
@@ -499,7 +499,7 @@ begin -- architecture rtl
       if
         bl_irqs_key = '1' or
         bl_irqs_pps = '1'
-        then
+      then
         bl_irqs <= '1';
       else
         bl_irqs <= '0';
@@ -507,13 +507,13 @@ begin -- architecture rtl
       -- Set interrupt errors
       if bl_irqs_key = '1' and
         bl_irqs_key_set = '1'
-        then
+      then
         bl_irq_errors_key <= '1';
       end if;
 
       if bl_irqs_pps = '1' and
         bl_irqs_pps_set = '1'
-        then
+      then
         bl_irq_errors_pps <= '1';
       end if;
 
