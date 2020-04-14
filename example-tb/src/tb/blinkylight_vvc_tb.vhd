@@ -14,12 +14,8 @@ use blinkylightlib.blinkylight_pkg.all;
 
 library testbenchlib;
 use testbenchlib.blinkylight_uvvm_pkg.all;
-use testbenchlib.blinkylight_reg_pkg.all;
 use testbenchlib.blinkylight_av_mm_reg_seq_pkg.all;
 use testbenchlib.blinkylight_axi_reg_seq_pkg.all;
-use testbenchlib.blinkylight_irq_seq_pkg.all;
-use testbenchlib.blinkylight_led_seq_pkg.all;
-use testbenchlib.blinkylight_sevseg_seq_pkg.all;
 
 library uvvm_util;
 context uvvm_util.uvvm_util_context;
@@ -76,9 +72,6 @@ architecture struct of blinkylight_vvc_tb is
 
   signal start_av_mm_reg_seq : boolean := false;
   signal start_axi_reg_seq   : boolean := false;
-  signal start_irq_seq       : boolean := false;
-  signal start_led_seq       : boolean := false;
-  signal start_sevseg_seq    : boolean := false;
 
   --! @}
   -----------------------------------------------------------------------------

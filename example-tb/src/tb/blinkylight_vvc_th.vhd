@@ -44,7 +44,6 @@ architecture struct of blinkylight_vvc_th is
   signal key    : std_ulogic_vector(num_of_keys_c-1 downto 0);
   signal switch : std_ulogic_vector(num_of_switches_c-1 downto 0);
   signal led    : std_logic_vector(num_of_leds_c-1 downto 0);
-  signal hex    : sevsegs_logic_t;
 
   -- Interrupts
   signal blinky_irq : std_ulogic;
@@ -137,17 +136,6 @@ begin  -- architecture struct
     port map (
       gpio_vvc_if => led);
 
-  -- Sevensegments
-  gpio_vvc_sevsegs_gen : for i in 0 to num_of_sevsegs_c-1 generate
-    gpio_vvc_sevseg_inst : entity bitvis_vip_gpio.gpio_vvc
-      generic map(
-        GC_DATA_WIDTH         => sevseg_t'length,
-        GC_INSTANCE_IDX       => SEVSEG_VVC_INST(i),
-        GC_DEFAULT_LINE_VALUE => (sevseg_t'range => 'Z'))
-      port map (
-        gpio_vvc_if => hex(i));
-  end generate gpio_vvc_sevsegs_gen;
-
   -- Avalon MM VVC
   av_mm_vvc_inst : entity bitvis_vip_avalon_mm.avalon_mm_vvc
     generic map (
@@ -208,7 +196,7 @@ begin  -- architecture struct
       axilite_vvc_master_if.read_data_channel.rvalid => s_axi_rvalid);
 
   -- DUT (AXI Register Interface)
-  dut_blinkylight_axi_inst : entity blinkylightlib.blinkylight_top
+  dut_blinkylight_axi_inst : entity blinkylightlib.blinkylight
     generic map (
       is_simulation_g => true,
       avalon_mm_inc_g => false,
@@ -220,12 +208,6 @@ begin  -- architecture struct
       key_i    => not(key),
       switch_i => switch,
       led_o    => led,
-      hex0_o   => hex(0),
-      hex1_o   => hex(1),
-      hex2_o   => hex(2),
-      hex3_o   => hex(3),
-      hex4_o   => hex(4),
-      hex5_o   => hex(5),
 
       blinky_irq_o => blinky_irq,
       blinky_pps_o => blinky_pps,
@@ -261,7 +243,7 @@ begin  -- architecture struct
       s_axi_rready_i  => s_axi_rready);
 
   -- DUT (Avalon MM Interface)
-  dut_blinkylight_av_mm_inst : entity blinkylightlib.blinkylight_top
+  dut_blinkylight_av_mm_inst : entity blinkylightlib.blinkylight
     generic map (
       is_simulation_g => true,
       avalon_mm_inc_g => true,
@@ -273,12 +255,6 @@ begin  -- architecture struct
       key_i    => not(key),
       switch_i => switch,
       led_o    => open,
-      hex0_o   => open,
-      hex1_o   => open,
-      hex2_o   => open,
-      hex3_o   => open,
-      hex4_o   => open,
-      hex5_o   => open,
 
       blinky_irq_o => open,
       blinky_pps_o => open,

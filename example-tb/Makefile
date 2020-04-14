@@ -23,8 +23,15 @@ ip: ##			- Compile IP library components.
 	@echo "Compiling IP library components..."
 	@mkdir -p ./build/sim
 	@mkdir -p ./build/log
-	@cd ./build/sim && vsim -c -do ../../scripts/ip_compile.tcl blinkylightlib ip 2>&1 | tee ../log/ip_compile.log
+	@cd ./build/sim && vsim -c -do ../../scripts/ip_compile.tcl 2>&1 | tee ../log/ip_compile.log
 	@$(call fail_on_error,ip_compile)
+
+test: ##			- Compile test library components.
+	@echo "Running test..."
+	@mkdir -p ./build/sim
+	@mkdir -p ./build/log
+	@cd ./build/sim && vsim -c -do ../../scripts/sim.tcl 2>&1 | tee ../log/sim.log
+	@$(call fail_on_error,sim)
 
 uvvm: ##			- Compile UVVM library components.
 	@echo "Compiling UVVM library components..."
@@ -48,7 +55,7 @@ clean: ##			- Clean outputs.
 help: ##			- Show this help message.
 	@grep -h "##" Makefile | grep -v "\"##\"" | sed -e 's/##//g'
 
-.PHONY: all ip uvvm format clean help
+.PHONY: all ip test uvvm format clean help
 
 ##
 ##--------------------------------------------------------------------

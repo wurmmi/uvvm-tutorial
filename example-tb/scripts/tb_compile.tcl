@@ -13,7 +13,7 @@ onbreak {quit -f}
 set vhdl_version "-2008"
 
 # Create and map work library
-set work_lib "blinkylighttb"
+set work_lib "testbenchlib"
 vlib $work_lib
 vmap $work_lib $work_lib
 

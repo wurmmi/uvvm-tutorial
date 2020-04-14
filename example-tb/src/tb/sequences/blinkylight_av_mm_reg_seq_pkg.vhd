@@ -14,7 +14,6 @@ use blinkylightlib.blinkylight_pkg.all;
 
 library testbenchlib;
 use testbenchlib.blinkylight_uvvm_pkg.all;
-use testbenchlib.blinkylight_reg_pkg.all;
 
 library uvvm_util;
 context uvvm_util.uvvm_util_context;
@@ -64,25 +63,6 @@ package body blinkylight_av_mm_reg_seq_pkg is
   begin
 
     await_value(start_i, true, 0 ns, 10 ns, error, "Wait for AV_MM_REG_SEQ to enable start.", TB_REG, ID_SEQUENCER);
-
-    log(ID_LOG_HDR, "Check default register values.", TB_REG);
-    ---------------------------------------------------------------------------
-    for i in 0 to num_registers_c - 1 loop
-      if register_map_c(i).access_type /= WRITE_ONLY then
-        av_mm_sb_i.add_expected(register_map_c(i).reset);
-
-        avalon_mm_read(av_mm_vvc_i, 1, register_map_c(i).address, "Read register: " & get_register_name(i));
-        cmd_idx_v := shared_cmd_idx;
-        await_completion(av_mm_vvc_i, 1, axi_access_time_c*2 + 1 ns, "Wait for read to finish.");
-        fetch_result(av_mm_vvc_i, 1, cmd_idx_v, value_v, "Fetching result from read operation.");
-
-        av_mm_sb_i.check_received(value_v(register_map_c(i).reset'range));
-      end if;
-    end loop;
-
-    check_value(av_mm_sb_i.is_empty(VOID), error, "Check that scoreboard is empty");
-    av_mm_sb_i.report_counters(VOID);
-    av_mm_sb_i.reset("Reset Avalon MM scoreboard statistics for later use in other tb sequences");
 
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
