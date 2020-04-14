@@ -1,32 +1,24 @@
 #-------------------------------------------------------------------------------
-# file:      ip_compile.tcl
+# file:      tb_compile.tcl
 # author:    Michael Wurm <wurm.michael95@gmail.com>
 # copyright: 2017-2020 Michael Wurm
-# brief:     Compiles IP files into respective work libraries.
+# brief:     Compiles testbench.
 #-------------------------------------------------------------------------------
 
 transcript quietly
 onerror {quit -f}
 onbreak {quit -f}
 
-set work_lib [lindex $argv 0]
-set target [lindex $argv 1]
-
-puts "work_lib = $work_lib"
-puts "target = $target"
-quit -f
-
-
 # Set compiler flags
 set vhdl_version "-2008"
 
 # Create and map work library
+set work_lib "blinkylighttb"
 vlib $work_lib
 vmap $work_lib $work_lib
 
 set root_dir "../.."
-set ipsrc "$root_dir/scripts/${target}_compile_order.txt"
-
+set ipsrc "$root_dir/scripts/tb_compile_order.txt"
 
 # Compile all files
 if {[file isfile $ipsrc]} {

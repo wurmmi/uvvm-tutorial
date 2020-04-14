@@ -1,0 +1,5 @@
+src/rtl/blinkylight_spec_pkg.vhd
+src/rtl/blinkylight_pkg.vhd
+src/rtl/blinkylight_av_mm.vhd
+src/rtl/blinkylight_axi.vhd
+src/rtl/blinkylight.vhd

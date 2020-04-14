@@ -28,6 +28,7 @@ set parts_list [list "uvvm_util" \
                      "bitvis_vip_gpio" \
                      "xConstrRandFuncCov"]
 
+# Call compile scripts in UVVM repository
 foreach uvvm_part $parts_list {
   set util_part_path $uvvm_dir/$uvvm_part
   do $util_part_path/script/compile_src.do $util_part_path $target_path

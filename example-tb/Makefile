@@ -23,7 +23,7 @@ ip: ##			- Compile IP library components.
 	@echo "Compiling IP library components..."
 	@mkdir -p ./build/sim
 	@mkdir -p ./build/log
-	@cd ./build/sim && vsim -do ../../scripts/ip_compile.tcl -c 2>&1 | tee ../log/ip_compile.log
+	@cd ./build/sim && vsim -c -do ../../scripts/ip_compile.tcl blinkylightlib ip 2>&1 | tee ../log/ip_compile.log
 	@$(call fail_on_error,ip_compile)
 
 uvvm: ##			- Compile UVVM library components.
@@ -34,7 +34,7 @@ uvvm: ##			- Compile UVVM library components.
 #endif
 	@mkdir -p ./build/sim
 	@mkdir -p ./build/log
-	@cd ./build/sim && vsim -do ../../scripts/uvvm_compile.tcl -c 2>&1 | tee ../log/uvvm_compile.log
+	@cd ./build/sim && vsim -c -do ../../scripts/uvvm_compile.tcl 2>&1 | tee ../log/uvvm_compile.log
 	@! grep -q "\*\* Error" ./build/log/uvvm_compile.log
 	@! grep -q "\*\* Fatal" ./build/log/uvvm_compile.log
 
