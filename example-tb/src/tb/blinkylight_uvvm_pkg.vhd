@@ -14,9 +14,6 @@ package blinkylight_uvvm_pkg is
   -----------------------------------------------------------------------------
   --! @{
 
-  type inst_numbers_t is array(0 to num_of_sevsegs_c-1)
-    of natural;
-
   --! Log verbosity
   constant VERBOSE : boolean := false;
 
@@ -28,13 +25,11 @@ package blinkylight_uvvm_pkg is
   constant TB_REG    : string := "BLY-REGS";
   constant TB_IRQ    : string := "BLY-IRQ";
   constant TB_LED    : string := "BLY-LED";
-  constant TB_SEVSEG : string := "BLY-SEVSEG";
 
   --! GPIO VVC instance numbers
   constant KEYS_VVC_INST   : natural := 1;
   constant SWIT_VVC_INST   : natural := 2;
   constant LEDS_VVC_INST   : natural := 3;
-  constant SEVSEG_VVC_INST : inst_numbers_t := (4,5,6,7,8,9);
 
   --! Log files
   constant LOG_ALL_FILE    : string := "../log/uvvm_log_latest_run.log";
