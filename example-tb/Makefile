@@ -38,6 +38,9 @@ uvvm: ##			- Compile UVVM library components.
 	@! grep -q "\*\* Error" ./build/log/uvvm_compile.log
 	@! grep -q "\*\* Fatal" ./build/log/uvvm_compile.log
 
+format: ##                 - Formatting for VHDL code.
+	@./scripts/format.sh
+
 clean: ##			- Clean outputs.
 	@echo "Cleaning..."
 	git clean -xdf
