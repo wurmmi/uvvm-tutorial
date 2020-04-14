@@ -1,0 +1,70 @@
+%------------------------------------------------------------------------------
+\section{UVVM Overview}
+
+UVVM, short for Universal VHDL Verification Methodology, is a VHDL testbench in-frastructure, architecture, library and methodology. It is developed by Bitvis, acompany with its headquarter located in Norway.\\
+\\
+The library is maintained as an open-source project, where developers can contributeto the existing code base.
+
+%------------------------------------------------------------------------------
+\subsection{General}
+
+UVVM consists of two major parts, which are the Utility Library and the VVC Framework.\\
+\\
+The Utility Library provides basic fundamental features, such as logging, alert handling and results checking.\\
+The VVC Framework builds an abstraction layer around the Utility Library and adds extended functionality on top of it. The major functionality there is the capability of scheduling and skewing actions with respect to each other. This means, stimuli have the ability to wait for others to finish, before they start. This especially simplifies verification in a testbench.
+
+%------------------------------------------------------------------------------
+\subsection{Advantage Over Other Verification Libraries}
+
+Different libraries and frameworks can be used for verification of an RTL design. They make use of different programming languages, such as SystemC or SystemVerilog. The masters courses \textit{Advanced Methods of Verification (AMV2)}, or \textit{Hardware-Software Co-Design (HSC2)} talk about these in detail.\\
+\\
+In order to use those languages, simulators need to be capable to work with those languages. This often requires to buy a license for language support. As a company, license costs are a factor to consider. Cost optimization in development processes is constantly driven forward. Thus, avoiding the need of a simulator license with support for several languages can help lowering costs.\\
+UVVM uses VHDL only, which - for above mentioned arguments - is a good reason to choose it for a project. Another reason is, that it is an open-source library and is continuously developing and improving.
+
+%------------------------------------------------------------------------------
+\subsection{Structure and Architecture}
+
+The UVVM testbench architecture offers a well-structured design that can be extended in a modular way. Readability is maintained by having global signals, that are hidden inside the library. In that way, even complex testbenches for large designs can be kept readable, as the amount of interface signals can be kept low. Following the modular structure, each interface is attached to its own verification component. Thus, the amount required to adapt a testbench to a changed interface on the DUT is minimal. \\
+\\
+Fig. 1 shows an example testbench architecture. It includes the test sequencer, the test harness and the DUT. Furthermore, it shows that each interface is attached to its' own VHDL verification component (VVC). Signals that need to be connected between those parts are displayed in solid lines, signals that are handled by UVVM in the background in dashed lines.
+
+\includepicture [0.5] [0] {Testbench architecture} {img/tb-th-structure}
+
+The modular architecture reveals its advantages especially when the DUT is changing its interfaces, as already mentioned above. For example, a DUT has an AXI memory mapped bus interface that the testbench is exercising extensively and in several locations in the testbenches' code. For some reason, the designer now replaces it with an Avalon memory mapped bus interface. \\
+For the UVVM testbench this only means to swap the AXI VVC with an Avalon VVC. All remaining functionality can be kept as it is. Only minimal adaptions are required, instead of re-writing the whole testbench part, that handles the changed interface.
+
+
+%------------------------------------------------------------------------------
+\subsubsection{Testharness}
+
+The test harness contains the instantiation of the actual DUT. Furthermore, the VVCs to handle all interfaces are instantiated here.
+
+%------------------------------------------------------------------------------
+\subsubsection{Testbench}
+
+The actual testing procedure happens in the testbench. It includes the main test sequencer, where all the test procedures are exercised.\\
+\\
+To maintain readability in complex designs, test procedures can be implemented in separate VHDL packages.
+
+%------------------------------------------------------------------------------
+\subsubsection{VHDL Verification Component}
+
+A VHDL Verification Component, short VVC, provides methods to verify a specific type of interface. Those methods are high-level abstractions of the transactions that this interface can perform (e.g. \textit{read} and \textit{write}).
+
+\includepicture[0.5][0]{VVCs connected with a DUT}{img/vvc-connect-dut}
+
+Examples of VVC functions are \texttt{axi\_write(...)} or \texttt{gpio\_expect(...)}. Those functions internally call methods of their respective bus functional models (BFM) that handle the low level actions.
+
+%------------------------------------------------------------------------------
+\subsubsection{Bus Functional Model}
+
+A Bus Functional Model, mostly referred to as BFM, handles the low-level interactions for a respective interface. The actual signal transactions for an interface are set here, according to the specific protocol. This includes handshake signals, such as read-valid, write-valid, various ready signals, wait states, busy signals and the actual data transmission lines.
+
+%------------------------------------------------------------------------------
+\subsubsection{Verification IP}
+
+A Verification IP, short VIP, basically acts as a container in the UVVM directory structure. It summarizes VVC and BFM, as well as corresponding documentation. Scripts to compile the VIP accordingly are provided as well.
+
+
+
+\newpage
