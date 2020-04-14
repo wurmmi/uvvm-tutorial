@@ -5,6 +5,11 @@
 # brief:     Makefile for SomeMemory Testench.
 #-------------------------------------------------------------------------------
 
+fail_on_error = \
+	!(grep -q "\*\* Error" ./build/log/$1.log); \
+	!(grep -q "\*\* Fatal" ./build/log/$1.log);
+
+
 ##--------------------------------------------------------------------
 ##Makefile for SomeMemory Testench.
 ##--------------------------------------------------------------------
@@ -13,6 +18,13 @@
 ##-----------------
 
 all: uvvm help ##		- Default target.
+
+ip: ##			- Compile IP library components.
+	@echo "Compiling IP library components..."
+	@mkdir -p ./build/sim
+	@mkdir -p ./build/log
+	@cd ./build/sim && vsim -do ../../scripts/ip_compile.tcl -c 2>&1 | tee ../log/ip_compile.log
+	@$(call fail_on_error,ip_compile)
 
 uvvm: ##			- Compile UVVM library components.
 	@echo "Compiling UVVM library components..."
@@ -33,7 +45,7 @@ clean: ##			- Clean outputs.
 help: ##			- Show this help message.
 	@grep -h "##" Makefile | grep -v "\"##\"" | sed -e 's/##//g'
 
-.PHONY: all uvvm clean help
+.PHONY: all ip uvvm clean help
 
 ##
 ##--------------------------------------------------------------------
