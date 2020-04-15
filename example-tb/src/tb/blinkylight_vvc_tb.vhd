@@ -109,7 +109,7 @@ begin  -- architecture struct
     await_uvvm_initialization(VOID);
 
     set_log_file_name(LOG_ALL_FILE);
-    set_log_file_name(LOG_ALERTS_FILE);
+    set_alert_file_name(LOG_ALERTS_FILE);
 
     disable_log_msg(ALL_MESSAGES);
     enable_log_msg(ID_CLOCK_GEN);
@@ -142,11 +142,11 @@ begin  -- architecture struct
     av_mm_sb_sv.enable_log_msg(ID_DATA);
 
     log(ID_LOG_HDR, "Configure UVVM parameters.", INFO);
-    shared_axilite_vvc_config(1).bfm_config.clock_period        := clk_period_c;
-    shared_avalon_mm_vvc_config(1).bfm_config.clock_period      := clk_period_c;
-    shared_avalon_mm_vvc_config(1).bfm_config.use_readdatavalid := true;
-    shared_avalon_mm_vvc_config(1).bfm_config.use_waitrequest   := false;
-    shared_avalon_mm_vvc_config(1).bfm_config.num_wait_states_read := 2;
+    shared_axilite_vvc_config(1).bfm_config.clock_period            := clk_period_c;
+    shared_avalon_mm_vvc_config(1).bfm_config.clock_period          := clk_period_c;
+    shared_avalon_mm_vvc_config(1).bfm_config.use_readdatavalid     := true;
+    shared_avalon_mm_vvc_config(1).bfm_config.use_waitrequest       := false;
+    shared_avalon_mm_vvc_config(1).bfm_config.num_wait_states_read  := 2;
     shared_avalon_mm_vvc_config(1).bfm_config.num_wait_states_write := 2;
 
 

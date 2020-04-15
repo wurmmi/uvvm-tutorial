@@ -67,8 +67,8 @@ package body blinkylight_axi_reg_seq_pkg is
     log(ID_LOG_HDR, "Check macic number register.", TB_REG);
     ---------------------------------------------------------------------------
     axilite_check(axi_vvc_i, 1,
-                    to_unsigned(0, wr_data_v'length), x"4711ABCD",
-                    "Check magic value register");
+                  to_unsigned(0, wr_data_v'length), x"4711ABCD",
+                  "Check magic value register");
     await_completion(axi_vvc_i, 1, 2*axi_access_time_c, "Waiting to read magic number reg.");
 
     log(ID_LOG_HDR, "Test LED control register.", TB_REG);
@@ -76,13 +76,13 @@ package body blinkylight_axi_reg_seq_pkg is
     -- Write
     wr_data_v := x"000000C4";
     axilite_write(axi_vvc_i, 1,
-                    to_unsigned(1*4, wr_data_v'length), wr_data_v,
-                    "Writing value to LED control reg.");
+                  to_unsigned(1*4, wr_data_v'length), wr_data_v,
+                  "Writing value to LED control reg.");
 
     -- Read back
     axilite_check(axi_vvc_i, 1,
-                    to_unsigned(1*4, wr_data_v'length), wr_data_v,
-                    "Check data in LED control reg.");
+                  to_unsigned(1*4, wr_data_v'length), wr_data_v,
+                  "Check data in LED control reg.");
     await_completion(axi_vvc_i, 1, 4*axi_access_time_c, "Waiting to read led control reg.");
 
 
@@ -90,7 +90,7 @@ package body blinkylight_axi_reg_seq_pkg is
     ---------------------------------------------------------------------------
     for i in 2 to num_registers_c - 1 loop
       -- memory uses word addresses
-      addr := to_unsigned(i * 4, addr'length);
+      addr      := to_unsigned(i * 4, addr'length);
       -- Write
       wr_data_v := std_logic_vector(addr);
       axilite_write(axi_vvc_i, 1,
