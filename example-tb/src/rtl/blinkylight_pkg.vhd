@@ -34,16 +34,16 @@ package blinkylight_pkg is
   constant num_of_leds_c : natural := 8;
 
   --! Size of RAM
-  constant ram_length_c : natural := spec_ram_length_c;
+  constant ram_length_c : natural := 254;
 
   --! Startup delay
   constant startup_delay_num_clks_c : natural := 512;
 
   --! Number of registers in register interface
-  constant num_registers_c : natural := spec_num_registers_c;
+  constant num_registers_c : natural := 256;
 
   --! Register interface address bus width
-  constant reg_if_addr_width_c : natural := spec_reg_if_addr_width_c;
+  constant reg_if_addr_width_c : natural := 10;
 
   --! Magic register valus
   constant magic_value_c : std_ulogic_vector(31 downto 0) := x"4711ABCD";

@@ -95,11 +95,8 @@ architecture rtl of blinkylight is
 
   signal status          : status_t;
   signal control         : control_t;
-  signal interrupt       : interrupt_t;
   signal control_av_mm   : control_t;
   signal control_axi     : control_t;
-  signal interrupt_av_mm : interrupt_t;
-  signal interrupt_axi   : interrupt_t;
 
   --! @}
 
@@ -192,14 +189,11 @@ begin  -- architecture rtl
   sim_avoid_multiple_drivers_gen : if is_simulation_g = true generate
     control <= control_axi when axi4_lite_inc_g = true else
                control_av_mm when avalon_mm_inc_g = true;
-    interrupt <= interrupt_axi when axi4_lite_inc_g = true else
-                 interrupt_av_mm when avalon_mm_inc_g = true;
   end generate sim_avoid_multiple_drivers_gen;
 
-  -- Bitstream only includes Avalon MM register interface
+  -- Bitstream only supports Avalon MM register interface
   axi_connect_gen : if is_simulation_g = false generate
     control   <= control_av_mm;
-    interrupt <= interrupt_av_mm;
   end generate axi_connect_gen;
 
 end architecture rtl;
