@@ -25,8 +25,8 @@ all: uvvm ip test ##	- Default target.
 ip: ##			- Compile IP library components.
 	@echo "Compiling IP library components..."
 	@$(call create_build_dirs)
-	@cd ./build/sim && vsim -c -do ../../scripts/ip_compile.tcl 2>&1 | tee ../log/ip_compile.log
-	@$(call fail_on_error,ip_compile)
+	@cd ./build/sim && vsim -c -do ../../scripts/compile_ip.tcl 2>&1 | tee ../log/compile_ip.log
+	@$(call fail_on_error,compile_ip)
 
 test: ##			- Compile test library components.
 	@echo "Running test..."
@@ -37,8 +37,8 @@ test: ##			- Compile test library components.
 uvvm: ##			- Compile UVVM library components.
 	@echo "Compiling UVVM library components..."
 	@$(call create_build_dirs)
-	@cd ./build/sim && vsim -c -do ../../scripts/uvvm_compile.tcl 2>&1 | tee ../log/uvvm_compile.log
-	@$(call fail_on_error,uvvm_compile)
+	@cd ./build/sim && vsim -c -do ../../scripts/compile_uvvm.tcl 2>&1 | tee ../log/compile_uvvm.log
+	@$(call fail_on_error,compile_uvvm)
 
 format: ##		- Formatting for VHDL code.
 	@./scripts/format.sh

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# file:      ip_compile.tcl
+# file:      compile_ip.tcl
 # author:    Michael Wurm <wurm.michael95@gmail.com>
 # copyright: 2017-2020 Michael Wurm
 # brief:     Compiles IP files into respective work libraries.
@@ -18,7 +18,7 @@ vlib $work_lib
 vmap $work_lib $work_lib
 
 set root_dir "../.."
-set ipsrc "$root_dir/scripts/ip_compile_order.txt"
+set ipsrc "$root_dir/scripts/compile_order_ip.txt"
 
 # Compile all files
 if {[file isfile $ipsrc]} {

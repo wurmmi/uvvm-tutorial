@@ -16,7 +16,7 @@ puts "Running simulation script ($start_timestamp)."
 puts "======================================================================="
 
 # Compile testbench
-do tb_compile.tcl
+do compile_tb.tcl
 
 puts "\n-----------------------------------------------------------------------"
 puts "Starting simulation."
@@ -48,8 +48,8 @@ puts [format "Elaboration time: %.4f sec" $ct_secs]
 #}
 
 # Disable warnings
-# set StdArithNoWarnings 1
-# set NumericStdNoWarnings 1
+set StdArithNoWarnings 1
+set NumericStdNoWarnings 1
 
 # Run
 set runtime [time [format "run %s" $run_time]]

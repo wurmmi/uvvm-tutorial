@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# file:      uvvm_compile.tcl
+# file:      compile_uvvm.tcl
 # author:    Michael Wurm <wurm.michael95@gmail.com>
 # copyright: 2017-2020 Michael Wurm
 # brief:     Compiles UVVM components.
@@ -23,9 +23,7 @@ set parts_list [list "uvvm_util" \
                      "bitvis_vip_scoreboard" \
                      "bitvis_vip_avalon_mm" \
                      "bitvis_vip_axilite" \
-                     "bitvis_vip_gpio" \
-                     "xConstrRandFuncCov"]
-                     #-- TODO: USE randomize somewhere? ==> see project-soc-fpga
+                     "bitvis_vip_gpio"]
 
 # Call compile scripts in UVVM repository
 foreach uvvm_part $parts_list {
