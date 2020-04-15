@@ -95,12 +95,12 @@ package body blinkylight_axi_reg_seq_pkg is
       wr_data_v := std_logic_vector(addr);
       axilite_write(axi_vvc_i, 1,
                     addr, wr_data_v,
-                    "Writing inverted reset value to register address " & integer'image(to_integer(addr)));
+                    "Writing data to reg addr " & integer'image(to_integer(addr)));
 
       -- Read back
       axilite_check(axi_vvc_i, 1,
                     addr, wr_data_v,
-                    "Check data in register address " & integer'image(to_integer(addr)));
+                    "Check data in reg addr " & integer'image(to_integer(addr)));
     end loop;
 
     await_completion(axi_vvc_i, 1, num_registers_c*3 * axi_access_time_c, "Waiting for write-read sequence.");
