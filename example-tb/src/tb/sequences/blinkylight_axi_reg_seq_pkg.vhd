@@ -43,8 +43,7 @@ package blinkylight_axi_reg_seq_pkg is
 
   procedure blinkylight_axi_reg_seq (
     signal start_i    : in    boolean;
-    signal axi_vvc_i  : inout t_vvc_target_record;
-    variable axi_sb_i : inout t_generic_sb);
+    signal axi_vvc_i  : inout t_vvc_target_record);
 
   --! @}
 
@@ -55,8 +54,7 @@ package body blinkylight_axi_reg_seq_pkg is
 
   procedure blinkylight_axi_reg_seq (
     signal start_i    : in    boolean;
-    signal axi_vvc_i  : inout t_vvc_target_record;
-    variable axi_sb_i : inout t_generic_sb) is
+    signal axi_vvc_i  : inout t_vvc_target_record) is
 
     variable wr_data_v : std_logic_vector(31 downto 0);
     variable addr      : unsigned(31 downto 0);

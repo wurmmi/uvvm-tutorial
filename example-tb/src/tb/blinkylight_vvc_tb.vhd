@@ -76,7 +76,6 @@ architecture struct of blinkylight_vvc_tb is
   -----------------------------------------------------------------------------
   --! @{
 
-  shared variable axi_sb_sv   : t_generic_sb;
   shared variable av_mm_sb_sv : t_generic_sb;
 
   --! @}
@@ -132,10 +131,6 @@ begin  -- architecture struct
     end if;
 
     log(ID_LOG_HDR, "Configure Scoreboard parameters.", INFO);
-    axi_sb_sv.set_scope("AXI Scoreboard");
-    axi_sb_sv.config(C_SB_CONFIG_DEFAULT, "Set config for AXI4-Lite Scoreboard");
-    axi_sb_sv.enable(VOID);
-    axi_sb_sv.enable_log_msg(ID_DATA);
     av_mm_sb_sv.set_scope("Avalon MM Scoreboard");
     av_mm_sb_sv.config(C_SB_CONFIG_DEFAULT, "Set config for Avalon MM Scoreboard");
     av_mm_sb_sv.enable(VOID);
@@ -164,7 +159,7 @@ begin  -- architecture struct
     ---------------------------------------------------------------------------
     log(ID_LOG_HDR_LARGE, "Register Test Sequence AXI.", TB_REG);
     start_axi_reg_seq <= true;
-    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT, axi_sb_sv);
+    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT);
     start_axi_reg_seq <= false;
 
     ---------------------------------------------------------------------------
