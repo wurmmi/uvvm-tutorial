@@ -1,3 +1,4 @@
+src/rtl/units/startup_delay.vhd
 src/rtl/blinkylight_spec_pkg.vhd
 src/rtl/blinkylight_pkg.vhd
 src/rtl/blinkylight_av_mm.vhd

@@ -12,13 +12,13 @@ package blinkylight_spec_pkg is
   --! @{
 
   -- Number of registers in AXI register map
-  constant spec_num_registers_c     : natural := 255;
+  constant spec_num_registers_c     : natural := 256;
 
   -- Register interface address bus width
   constant spec_reg_if_addr_width_c : natural := 10;
 
   -- Constants inferred from blinkylight.yaml
-  constant spec_ram_length : natural := 254;
+  constant spec_ram_length_c : natural := 254;
 
   --! @}
 

@@ -36,16 +36,7 @@ entity blinkylight is
     --! @name User interface hardware
     --! @{
 
-    key_i    : in  std_ulogic_vector(num_of_keys_c - 1 downto 0);
-    switch_i : in  std_ulogic_vector(num_of_switches_c - 1 downto 0);
-    led_o    : out std_ulogic_vector(num_of_leds_c - 1 downto 0);
-
-    --! @}
-    --! @name Interrupts
-    --! @{
-
-    blinky_irq_o : out std_ulogic;
-    blinky_pps_o : out std_ulogic;
+    led_o    : out led_port_t;
 
     --! @}
     --! @name Status
@@ -102,8 +93,6 @@ architecture rtl of blinkylight is
 
   signal leds : std_ulogic_vector(num_of_leds_c - 1 downto 0);
 
-  signal pps : std_ulogic;
-
   signal status          : status_t;
   signal control         : control_t;
   signal interrupt       : interrupt_t;
@@ -120,21 +109,26 @@ begin  -- architecture rtl
   -- Outputs
   -----------------------------------------------------------------------------
 
-  blinky_irq_o <= interrupt.irq;
-  blinky_pps_o <= status.pps;
   running_o    <= status.running;
+  led_o <= control.led;
 
   -----------------------------------------------------------------------------
   -- Signal Assignments
   -----------------------------------------------------------------------------
 
-  status.key         <= key_i(0) or key_i(1) or key_i(2);
-  status.pps         <= pps;
   status.magic_value <= magic_value_c;
 
   -----------------------------------------------------------------------------
   -- Instantiations
   -----------------------------------------------------------------------------
+
+  startup_delay_inst : entity blinkylightlib.startup_delay
+    generic map (
+      num_clk_cycles => startup_delay_num_clks_c)
+    port map (
+      clk_i    => clk_i,
+      rst_n_i  => rst_n_i,
+      signal_o => status.running);
 
   reg_if_axi_gen : if axi4_lite_inc_g = true or
                      is_simulation_g = true generate
@@ -170,7 +164,7 @@ begin  -- architecture rtl
 
         status_i    => status,
         control_o   => control_axi,
-        interrupt_o => interrupt_axi);
+        interrupt_o => open);
   end generate reg_if_axi_gen;
 
   reg_if_av_mm_gen : if avalon_mm_inc_g = true or
@@ -191,7 +185,7 @@ begin  -- architecture rtl
 
         status_i    => status,
         control_o   => control_av_mm,
-        interrupt_o => interrupt_av_mm);
+        interrupt_o => open);
   end generate reg_if_av_mm_gen;
 
   -- Simulation only

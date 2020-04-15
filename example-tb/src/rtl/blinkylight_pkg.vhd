@@ -30,26 +30,14 @@ package blinkylight_pkg is
   --! AXI access time for a single access
   constant axi_access_time_c : time := 4 * clk_period_c;
 
-  --! Number of keys
-  constant num_of_keys_c : natural := 3;
-
-  --! Number of keys
+  --! Number of leds
   constant num_of_leds_c : natural := 8;
 
-  --! Number of switches
-  constant num_of_switches_c : natural := 10;
-
   --! Size of RAM
-  constant ram_length_c : natural := spec_ram_length;
+  constant ram_length_c : natural := spec_ram_length_c;
 
   --! Startup delay
   constant startup_delay_num_clks_c : natural := 512;
-
-  --! PPS period
-  constant pps_period_c : time := 10 us;
-
-  --! LED dimm counter frequency
-  constant led_count_inc_period_c : time := 100 ns;
 
   --! Number of registers in register interface
   constant num_registers_c : natural := spec_num_registers_c;
@@ -66,33 +54,22 @@ package blinkylight_pkg is
   --! Array of dimmvalues
   type ram_t is array(0 to ram_length_c - 1) of ram_data_elem_t;
 
-
   type status_t is record
     --! @brief BlinkyLight's status registers
     --! @param Signalize that FPGA is running.
-    --! @param pps Pulse per second.
-    --! @param key Key status of all keys.
     --! @param magic_value Magic value constant.
     running     : std_ulogic;
-    pps         : std_ulogic;
-    key         : std_ulogic;
     magic_value : std_ulogic_vector(31 downto 0);
   end record status_t;
 
-  type gui_ctrl_t is record
-    --! @brief GUI control registers
-    --! @param enable_update Enables LEDs and Sevensegments to update.
-    --! @param blank Blank Sevenegments.
-    enable_update : std_ulogic;
-    blank_sevsegs : std_ulogic;
-  end record gui_ctrl_t;
+  subtype led_port_t is std_ulogic_vector(num_of_leds_c - 1 downto 0);
 
   type control_t is record
     --! @brief BlinkyLight's control registers
     --! @param ram Data store.
-    --! @param gui_ctrl GUI Controls.
+    --! @param led Physical LED value representation.
     ram  : ram_t;
-    gui_ctrl        : gui_ctrl_t;
+    led  : led_port_t;
   end record control_t;
 
   type interrupt_t is record
@@ -100,10 +77,6 @@ package blinkylight_pkg is
     --! @param irq Global interrupt.
     irq : std_ulogic;
   end record interrupt_t;
-
-  --! Special characters for sevensegment display
-  constant sevseg_char_dash_c  : natural := 16;
-  constant sevseg_char_blank_c : natural := 17;
 
   -----------------------------------------------------------------------------
   -- Functions
