@@ -629,6 +629,7 @@ begin
   regs : process (clk_i, rst_n_i) is
   procedure reset is
   begin
+    rdvalid <= (others => '0');
   end procedure reset;
   begin
     if rst_n_i = '0' then
@@ -648,7 +649,6 @@ begin
   procedure reset is
   begin
     readdata <= (others => '0');
-    --rdvalid <= (others => '0');
     rresp <= response_decode_err_c;
   end procedure reset;
   begin -- process reading

@@ -127,8 +127,7 @@ begin  -- architecture rtl
       rst_n_i  => rst_n_i,
       signal_o => status.running);
 
-  reg_if_axi_gen : if axi4_lite_inc_g = true or
-                     is_simulation_g = true generate
+  reg_if_axi_gen : if axi4_lite_inc_g = true generate
     -- AXI-Lite registers
     registers_inst : entity blinkylightlib.memory_axilite
       port map(
@@ -164,8 +163,7 @@ begin  -- architecture rtl
         interrupt_o => open);
   end generate reg_if_axi_gen;
 
-  reg_if_av_mm_gen : if avalon_mm_inc_g = true or
-                       is_simulation_g = true generate
+  reg_if_av_mm_gen : if avalon_mm_inc_g = true generate
     -- Avalon MM registers
     registers_inst : entity blinkylightlib.memory_av_mm
       port map(

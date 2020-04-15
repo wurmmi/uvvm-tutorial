@@ -72,15 +72,17 @@ package body blinkylight_av_mm_reg_seq_pkg is
 
     log(ID_LOG_HDR, "Test LED control register.", TB_REG);
     ---------------------------------------------------------------------------
+    -- memory uses word addresses
+    addr := to_unsigned(1 * 4, addr'length);
     -- Write
     wr_data_v := x"000000C4";
     avalon_mm_write(av_mm_vvc_i, 1,
-                    to_unsigned(1*4, wr_data_v'length), wr_data_v,
+                    addr, wr_data_v,
                     "Writing value to LED control reg.");
 
     -- Read back
     avalon_mm_check(av_mm_vvc_i, 1,
-                    to_unsigned(1*4, wr_data_v'length), wr_data_v,
+                    addr, wr_data_v,
                     "Check data in LED control reg.");
     await_completion(av_mm_vvc_i, 1, 2*axi_access_time_c, "Waiting to read led control reg.");
 
@@ -101,7 +103,7 @@ package body blinkylight_av_mm_reg_seq_pkg is
                       "Check data in reg addr " & integer'image(to_integer(addr)));
     end loop;
 
-    await_completion(av_mm_vvc_i, 1, num_registers_c*3 * axi_access_time_c, "Waiting for write-read sequence.");
+    await_completion(av_mm_vvc_i, 1, num_registers_c*2 * axi_access_time_c, "Waiting for write-read sequence.");
   end procedure blinkylight_av_mm_reg_seq;
 
 end package body blinkylight_av_mm_reg_seq_pkg;
