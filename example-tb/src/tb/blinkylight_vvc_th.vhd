@@ -26,9 +26,9 @@ library bitvis_vip_gpio;
 
 entity blinkylight_vvc_th is
   port (
-    clk_i        : in  std_ulogic;
-    rst_n_i      : in  std_ulogic;
-    running_o    : out std_ulogic);
+    clk_i     : in  std_ulogic;
+    rst_n_i   : in  std_ulogic;
+    running_o : out std_ulogic);
 end entity blinkylight_vvc_th;
 
 --! Test harness architecture
@@ -39,7 +39,7 @@ architecture struct of blinkylight_vvc_th is
   --! @{
 
   -- Physical connections
-  signal led    : std_logic_vector(num_of_leds_c-1 downto 0);
+  signal led : std_logic_vector(num_of_leds_c-1 downto 0);
 
   -- Status
   signal running : std_ulogic;
@@ -90,7 +90,7 @@ begin  -- architecture struct
   -- Outputs
   -----------------------------------------------------------------------------
 
-  running_o    <= running;
+  running_o <= running;
 
   -----------------------------------------------------------------------------
   -- Instantiations
@@ -177,7 +177,7 @@ begin  -- architecture struct
       clk_i   => clk_i,
       rst_n_i => rst_n_i,
 
-      led_o    => led,
+      led_o     => led,
       running_o => running,
 
       -- Avalon MM (unused)
@@ -219,7 +219,7 @@ begin  -- architecture struct
       clk_i   => clk_i,
       rst_n_i => rst_n_i,
 
-      led_o    => open,
+      led_o     => open,
       running_o => open,
 
       -- Avalon MM

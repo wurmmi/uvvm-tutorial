@@ -58,7 +58,7 @@ package body blinkylight_av_mm_reg_seq_pkg is
     signal av_mm_vvc_i  : inout t_vvc_target_record;
     variable av_mm_sb_i : inout t_generic_sb) is
 
-    variable wr_data_v   : std_logic_vector(31 downto 0);
+    variable wr_data_v : std_logic_vector(31 downto 0);
     variable cmd_idx_v : natural;
   begin
 
@@ -75,12 +75,12 @@ package body blinkylight_av_mm_reg_seq_pkg is
       -- Write
       wr_data_v := std_logic_vector(to_unsigned(addr * 3, wr_data_v'length));
       avalon_mm_write(av_mm_vvc_i, 1,
-                      to_unsigned(addr,32), wr_data_v,
+                      to_unsigned(addr, 32), wr_data_v,
                       "Writing inverted reset value to register address " & integer'image(addr));
 
       -- Read back
       avalon_mm_check(av_mm_vvc_i, 1,
-                      to_unsigned(addr,32), wr_data_v,
+                      to_unsigned(addr, 32), wr_data_v,
                       "Check data in register address " & integer'image(addr));
     end loop;
 

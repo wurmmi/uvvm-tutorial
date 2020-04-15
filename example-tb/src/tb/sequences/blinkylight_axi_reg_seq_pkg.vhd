@@ -58,7 +58,7 @@ package body blinkylight_axi_reg_seq_pkg is
     signal axi_vvc_i  : inout t_vvc_target_record;
     variable axi_sb_i : inout t_generic_sb) is
 
-    variable wr_data_v   : std_logic_vector(31 downto 0);
+    variable wr_data_v : std_logic_vector(31 downto 0);
     variable cmd_idx_v : natural;
   begin
 
@@ -75,13 +75,13 @@ package body blinkylight_axi_reg_seq_pkg is
       -- Write
       wr_data_v := std_logic_vector(to_unsigned(addr * 3, wr_data_v'length));
       axilite_write(axi_vvc_i, 1,
-                      to_unsigned(addr,32), wr_data_v,
-                      "Writing inverted reset value to register address " & integer'image(addr));
+                    to_unsigned(addr, 32), wr_data_v,
+                    "Writing inverted reset value to register address " & integer'image(addr));
 
       -- Read back
       axilite_check(axi_vvc_i, 1,
-                      to_unsigned(addr,32), wr_data_v,
-                      "Check data in register address " & integer'image(addr));
+                    to_unsigned(addr, 32), wr_data_v,
+                    "Check data in register address " & integer'image(addr));
     end loop;
 
     await_completion(axi_vvc_i, 1, num_registers_c*4 * axi_access_time_c, "Waiting for restoring register defaults.");

@@ -67,8 +67,8 @@ package blinkylight_pkg is
     --! @brief BlinkyLight's control registers
     --! @param ram Data store.
     --! @param led Physical LED value representation.
-    ram  : ram_t;
-    led  : led_port_t;
+    ram : ram_t;
+    led : led_port_t;
   end record control_t;
 
   type interrupt_t is record

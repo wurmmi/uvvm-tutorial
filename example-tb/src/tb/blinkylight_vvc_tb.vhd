@@ -54,7 +54,7 @@ architecture struct of blinkylight_vvc_tb is
   -----------------------------------------------------------------------------
   --! @{
 
-  constant clk_duty_cycle_c             : natural  := 50;
+  constant clk_duty_cycle_c : natural := 50;
 
   --! @}
   -----------------------------------------------------------------------------
@@ -62,10 +62,10 @@ architecture struct of blinkylight_vvc_tb is
   -----------------------------------------------------------------------------
   --! @{
 
-  signal clk        : std_ulogic;
-  signal clk_ena    : boolean;
-  signal rst_n      : std_ulogic;
-  signal running    : std_ulogic;
+  signal clk     : std_ulogic;
+  signal clk_ena : boolean;
+  signal rst_n   : std_ulogic;
+  signal running : std_ulogic;
 
   signal start_av_mm_reg_seq : boolean := false;
   signal start_axi_reg_seq   : boolean := false;
@@ -88,9 +88,9 @@ begin  -- architecture struct
   -----------------------------------------------------------------------------
 
   test_harness : entity testbenchlib.blinkylight_vvc_th
-    port map (clk_i        => clk,
-              rst_n_i      => rst_n,
-              running_o    => running);
+    port map (clk_i     => clk,
+              rst_n_i   => rst_n,
+              running_o => running);
 
   -----------------------------------------------------------------------------
   -- Physical connections

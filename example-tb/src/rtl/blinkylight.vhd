@@ -36,7 +36,7 @@ entity blinkylight is
     --! @name User interface hardware
     --! @{
 
-    led_o    : out led_port_t;
+    led_o : out led_port_t;
 
     --! @}
     --! @name Status
@@ -93,10 +93,10 @@ architecture rtl of blinkylight is
 
   signal leds : std_ulogic_vector(num_of_leds_c - 1 downto 0);
 
-  signal status          : status_t;
-  signal control         : control_t;
-  signal control_av_mm   : control_t;
-  signal control_axi     : control_t;
+  signal status        : status_t;
+  signal control       : control_t;
+  signal control_av_mm : control_t;
+  signal control_axi   : control_t;
 
   --! @}
 
@@ -106,8 +106,8 @@ begin  -- architecture rtl
   -- Outputs
   -----------------------------------------------------------------------------
 
-  running_o    <= status.running;
-  led_o <= control.led;
+  running_o <= status.running;
+  led_o     <= control.led;
 
   -----------------------------------------------------------------------------
   -- Signal Assignments
@@ -193,7 +193,7 @@ begin  -- architecture rtl
 
   -- Bitstream only supports Avalon MM register interface
   axi_connect_gen : if is_simulation_g = false generate
-    control   <= control_av_mm;
+    control <= control_av_mm;
   end generate axi_connect_gen;
 
 end architecture rtl;
