@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 --! @file      blinkylight_vvc_tb.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     Testbench of blinkylight.
 -------------------------------------------------------------------------------
 
@@ -170,12 +170,12 @@ begin  -- architecture struct
     start_axi_reg_seq <= false;
 
     --=========================================================================
-    wait for 10000 ns;
+    wait for 1000 * clk_period_c;
     log(ID_LOG_HDR_LARGE, "End of testbench. Await completion of all VVCs.", INFO);
-    await_completion(VVC_BROADCAST, 1000 ns, "Waiting for all VVCs to finish.");
+    await_completion(VVC_BROADCAST, 100 * clk_period_c, "Waiting for all VVCs to finish.");
 
     clk_ena <= false;
-    wait for 1000 ns;
+    wait for 100 * clk_period_c;
 
     report_alert_counters(FINAL);
     log(ID_LOG_HDR_LARGE, "SIMULATION COMPLETED", INFO);
