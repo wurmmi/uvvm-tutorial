@@ -145,6 +145,10 @@ begin  -- architecture struct
     shared_axilite_vvc_config(1).bfm_config.clock_period        := clk_period_c;
     shared_avalon_mm_vvc_config(1).bfm_config.clock_period      := clk_period_c;
     shared_avalon_mm_vvc_config(1).bfm_config.use_readdatavalid := true;
+    shared_avalon_mm_vvc_config(1).bfm_config.use_waitrequest   := false;
+    shared_avalon_mm_vvc_config(1).bfm_config.num_wait_states_read := 2;
+    shared_avalon_mm_vvc_config(1).bfm_config.num_wait_states_write := 2;
+
 
     log(ID_LOG_HDR_LARGE, "Starting simulation of testbench for BlinkyLight.", INFO);
     --=========================================================================
