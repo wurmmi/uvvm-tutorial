@@ -130,7 +130,7 @@ begin  -- architecture rtl
   reg_if_axi_gen : if axi4_lite_inc_g = true or
                      is_simulation_g = true generate
     -- AXI-Lite registers
-    registers_inst : entity blinkylightlib.blinkylight_axi
+    registers_inst : entity blinkylightlib.memory_axilite
       port map(
         s_axi_aclk_i    => clk_i,
         s_axi_aresetn_i => rst_n_i,
@@ -167,7 +167,7 @@ begin  -- architecture rtl
   reg_if_av_mm_gen : if avalon_mm_inc_g = true or
                        is_simulation_g = true generate
     -- Avalon MM registers
-    registers_inst : entity blinkylightlib.blinkylight_av_mm
+    registers_inst : entity blinkylightlib.memory_av_mm
       port map(
         clk_i   => clk_i,
         rst_n_i => rst_n_i,

@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_av_mm.vhd
+--! @file      memory_av_mm.vhd
 --! @author    Super Easy Register Scripting Engine (SERSE)
 --! @copyright 2017-2019 Michael Wurm
 --! @brief     Avalon MM register interface for BlinkyLight
@@ -12,12 +12,12 @@ use ieee.numeric_std.all;
 library blinkylightlib;
 use blinkylightlib.blinkylight_pkg.all;
 
---! @brief Entity declaration of blinkylight_av_mm
+--! @brief Entity declaration of memory_av_mm
 --! @details
 --! This is a generated wrapper to combine registers into record types for
 --! easier component connection in the design.
 
-entity blinkylight_av_mm is
+entity memory_av_mm is
   generic (
     read_delay_g : natural := 2);
   port (
@@ -49,10 +49,10 @@ entity blinkylight_av_mm is
 
     --! @}
 
-end entity blinkylight_av_mm;
+end entity memory_av_mm;
 
 
-architecture rtl of blinkylight_av_mm is
+architecture rtl of memory_av_mm is
 
   -----------------------------------------------------------------------------
   --! @name BlinkyLight Avalon MM Constants

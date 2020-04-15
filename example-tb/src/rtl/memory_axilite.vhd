@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_axi.vhd
+--! @file      memory_axilite.vhd
 --! @author    Super Easy Register Scripting Engine (SERSE)
 --! @copyright 2017-2019 Michael Wurm
 --! @brief     AXI4-Lite register interface for BlinkyLight
@@ -12,12 +12,12 @@ use ieee.numeric_std.all;
 library blinkylightlib;
 use blinkylightlib.blinkylight_pkg.all;
 
---! @brief Entity declaration of blinkylight_axi
+--! @brief Entity declaration of memory_axilite
 --! @details
 --! This is a generated wrapper to combine registers into record types for
 --! easier component connection in the design.
 
-entity blinkylight_axi is
+entity memory_axilite is
   generic (
     read_delay_g : natural := 2);
   port (
@@ -81,11 +81,11 @@ entity blinkylight_axi is
 
     --! @}
 
-end entity blinkylight_axi;
+end entity memory_axilite;
 
 
---! RTL implementation of blinkylight_axi
-architecture rtl of blinkylight_axi is
+--! RTL implementation of memory_axilite
+architecture rtl of memory_axilite is
   -----------------------------------------------------------------------------
   --! @name Types and Constants
   -----------------------------------------------------------------------------
