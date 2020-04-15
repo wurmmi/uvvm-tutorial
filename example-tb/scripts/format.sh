@@ -1,4 +1,10 @@
 #!/bin/bash
+#-------------------------------------------------------------------------------
+# file:      format.sh
+# author:    Michael Wurm <wurm.michael95@gmail.com>
+# copyright: 2017-2020 Michael Wurm
+# brief:     Uses Emacs to format VHDL source files.
+#------------------------------------------------------------------------------
 
 HDL_PRETTY_ARGS=--vhdl-basic-offset=2
 
