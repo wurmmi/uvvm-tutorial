@@ -9,6 +9,9 @@ fail_on_error = \
 	!(grep -q "\*\* Error" ./build/log/$1.log); \
 	!(grep -q "\*\* Fatal" ./build/log/$1.log);
 
+create_build_dirs = \
+	mkdir -p ./build/sim; \
+	mkdir -p ./build/log
 
 ##--------------------------------------------------------------------
 ##Makefile for SomeMemory Testench.
@@ -17,33 +20,25 @@ fail_on_error = \
 ##Supported Targets
 ##-----------------
 
-all: uvvm help ##		- Default target.
+all: uvvm ip test ##	- Default target.
 
 ip: ##			- Compile IP library components.
 	@echo "Compiling IP library components..."
-	@mkdir -p ./build/sim
-	@mkdir -p ./build/log
+	@$(call create_build_dirs)
 	@cd ./build/sim && vsim -c -do ../../scripts/ip_compile.tcl 2>&1 | tee ../log/ip_compile.log
 	@$(call fail_on_error,ip_compile)
 
 test: ##			- Compile test library components.
 	@echo "Running test..."
-	@mkdir -p ./build/sim
-	@mkdir -p ./build/log
+	@$(call create_build_dirs)
 	@cd ./build/sim && vsim -c -do ../../scripts/sim.tcl 2>&1 | tee ../log/sim.log
 	@$(call fail_on_error,sim)
 
 uvvm: ##			- Compile UVVM library components.
 	@echo "Compiling UVVM library components..."
-#ifneq ($(MODELSIM_VERSION),10.6b)
-#	@echo "(MWURM) ERROR: MODELSIM_VERSION = $(MODELSIM_VERSION), UVVM requires version 10.6b"
-#	@exit 1
-#endif
-	@mkdir -p ./build/sim
-	@mkdir -p ./build/log
+	@$(call create_build_dirs)
 	@cd ./build/sim && vsim -c -do ../../scripts/uvvm_compile.tcl 2>&1 | tee ../log/uvvm_compile.log
-	@! grep -q "\*\* Error" ./build/log/uvvm_compile.log
-	@! grep -q "\*\* Fatal" ./build/log/uvvm_compile.log
+	@$(call fail_on_error,uvvm_compile)
 
 format: ##		- Formatting for VHDL code.
 	@./scripts/format.sh
@@ -60,6 +55,7 @@ help: ##			- Show this help message.
 ##
 ##--------------------------------------------------------------------
 ##*** NOTE: Makefile requires following setup:
-##      - Modelsim (vsim) can be found in PATH.
+##      - Modelsim (vsim) installed.
+##      - Emacs (emacs) installed.
 ##
 ##--------------------------------------------------------------------
