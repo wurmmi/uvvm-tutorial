@@ -55,7 +55,6 @@ architecture struct of blinkylight_vvc_tb is
   --! @{
 
   constant clk_duty_cycle_c             : natural  := 50;
-  constant num_of_random_sevseg_tests_c : positive := 20;
 
   --! @}
   -----------------------------------------------------------------------------
@@ -66,8 +65,6 @@ architecture struct of blinkylight_vvc_tb is
   signal clk        : std_ulogic;
   signal clk_ena    : boolean;
   signal rst_n      : std_ulogic;
-  signal blinky_irq : std_ulogic;
-  signal blinky_pps : std_ulogic;
   signal running    : std_ulogic;
 
   signal start_av_mm_reg_seq : boolean := false;
@@ -93,15 +90,13 @@ begin  -- architecture struct
   test_harness : entity testbenchlib.blinkylight_vvc_th
     port map (clk_i        => clk,
               rst_n_i      => rst_n,
-              blinky_irq_o => blinky_irq,
-              blinky_pps_o => blinky_pps,
               running_o    => running);
 
   -----------------------------------------------------------------------------
   -- Physical connections
   -----------------------------------------------------------------------------
 
-  clock_generator(clk, clk_ena, clk_period_c, "", clk_duty_cycle_c);
+  clock_generator(clk, clk_ena, clk_period_c, "clk", clk_duty_cycle_c);
   rstgen : rst_n <= '0', '1' after 200 ns;
 
   -----------------------------------------------------------------------------
@@ -155,13 +150,12 @@ begin  -- architecture struct
     --=========================================================================
     clk_ena <= false, true after 30 ns;
 
-    log("Wait for reset to release.", INFO);
+    log(ID_LOG_HDR, "Wait for reset to release.", INFO);
     await_value(rst_n, '1', 180 ns, 220 ns, error, "Release reset", TB_HW, ID_SEQUENCER);
 
     ---------------------------------------------------------------------------
-    log(ID_LOG_HDR, "Check default pin output values.", INFO);
-    check_value(blinky_irq, '0', error, "Blinky IRQ default", TB_DFLT, ID_SEQUENCER);
-    check_value(blinky_pps, '0', error, "Blinky PPS default", TB_DFLT, ID_SEQUENCER);
+    log(ID_LOG_HDR, "Wait for FPGA design to start.", INFO);
+    await_value(running, '1', 220 ns, startup_delay_num_clks_c * clk_period_c, error, "Indicate running status", TB_HW, ID_SEQUENCER);
 
     ---------------------------------------------------------------------------
     log(ID_LOG_HDR_LARGE, "Register Test Sequence Avalon MM.", TB_REG);

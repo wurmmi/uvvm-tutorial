@@ -9,9 +9,6 @@ transcript quietly
 onerror {quit -f}
 onbreak {quit -f}
 
-# Set compiler flags
-#set vhdl_version "-2008"
-
 # Create and map work library
 set work_lib "uvvmlib"
 vlib $work_lib
@@ -20,6 +17,7 @@ vmap $work_lib $work_lib
 set uvvm_dir "../../../UVVM"
 set target_path [pwd]
 
+# Required UVVM components
 set parts_list [list "uvvm_util" \
                      "uvvm_vvc_framework" \
                      "bitvis_vip_scoreboard" \
@@ -27,6 +25,7 @@ set parts_list [list "uvvm_util" \
                      "bitvis_vip_axilite" \
                      "bitvis_vip_gpio" \
                      "xConstrRandFuncCov"]
+                     #-- TODO: USE randomize somewhere? ==> see project-soc-fpga
 
 # Call compile scripts in UVVM repository
 foreach uvvm_part $parts_list {

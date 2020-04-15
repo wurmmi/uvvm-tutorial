@@ -10,7 +10,6 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 library blinkylightlib;
-use blinkylightlib.blinkylight_spec_pkg.all;
 
 --! @brief Package declaration of blinkylight_pkg
 --! @details

@@ -28,8 +28,6 @@ entity blinkylight_vvc_th is
   port (
     clk_i        : in  std_ulogic;
     rst_n_i      : in  std_ulogic;
-    blinky_irq_o : out std_ulogic;
-    blinky_pps_o : out std_ulogic;
     running_o    : out std_ulogic);
 end entity blinkylight_vvc_th;
 
@@ -41,13 +39,7 @@ architecture struct of blinkylight_vvc_th is
   --! @{
 
   -- Physical connections
-  signal key    : std_ulogic_vector(num_of_keys_c-1 downto 0);
-  signal switch : std_ulogic_vector(num_of_switches_c-1 downto 0);
   signal led    : std_logic_vector(num_of_leds_c-1 downto 0);
-
-  -- Interrupts
-  signal blinky_irq : std_ulogic;
-  signal blinky_pps : std_ulogic;
 
   -- Status
   signal running : std_ulogic;
@@ -98,8 +90,6 @@ begin  -- architecture struct
   -- Outputs
   -----------------------------------------------------------------------------
 
-  blinky_irq_o <= blinky_irq;
-  blinky_pps_o <= blinky_pps;
   running_o    <= running;
 
   -----------------------------------------------------------------------------
@@ -108,24 +98,6 @@ begin  -- architecture struct
 
   -- Initialize UVVM
   ti_uvvm_engine_inst : entity uvvm_vvc_framework.ti_uvvm_engine;
-
-  -- Keys
-  gpio_vvc_keys_inst : entity bitvis_vip_gpio.gpio_vvc
-    generic map(
-      GC_DATA_WIDTH         => key'length,
-      GC_INSTANCE_IDX       => KEYS_VVC_INST,
-      GC_DEFAULT_LINE_VALUE => (key'range => '0'))
-    port map (
-      gpio_vvc_if => key);
-
-  -- Switches
-  gpio_vvc_switches_inst : entity bitvis_vip_gpio.gpio_vvc
-    generic map(
-      GC_DATA_WIDTH         => switch'length,
-      GC_INSTANCE_IDX       => SWIT_VVC_INST,
-      GC_DEFAULT_LINE_VALUE => (switch'range => '0'))
-    port map (
-      gpio_vvc_if => switch);
 
   -- LEDs
   gpio_vvc_leds_inst : entity bitvis_vip_gpio.gpio_vvc
@@ -205,16 +177,10 @@ begin  -- architecture struct
       clk_i   => clk_i,
       rst_n_i => rst_n_i,
 
-      key_i    => not(key),
-      switch_i => switch,
       led_o    => led,
-
-      blinky_irq_o => blinky_irq,
-      blinky_pps_o => blinky_pps,
-
       running_o => running,
 
-      -- unused
+      -- Avalon MM (unused)
       s1_address_i   => (others => '0'),
       s1_write_i     => '0',
       s1_writedata_i => (others => '0'),
@@ -222,6 +188,7 @@ begin  -- architecture struct
       s1_readdata_o  => open,
       s1_response_o  => open,
 
+      -- Axilite MM
       s_axi_awaddr_i  => s_axi_awaddr,
       s_axi_awprot_i  => s_axi_awprot,
       s_axi_awvalid_i => s_axi_awvalid,
@@ -252,15 +219,10 @@ begin  -- architecture struct
       clk_i   => clk_i,
       rst_n_i => rst_n_i,
 
-      key_i    => not(key),
-      switch_i => switch,
       led_o    => open,
-
-      blinky_irq_o => open,
-      blinky_pps_o => open,
-
       running_o => open,
 
+      -- Avalon MM
       s1_address_i       => s1_address,
       s1_write_i         => s1_write,
       s1_writedata_i     => s1_writedata,
@@ -269,7 +231,7 @@ begin  -- architecture struct
       s1_readdatavalid_o => s1_readdatavalid,
       s1_response_o      => s1_response,
 
-      -- unused
+      -- Axilite MM (unused)
       s_axi_awaddr_i  => (others => '0'),
       s_axi_awprot_i  => (others => '0'),
       s_axi_awvalid_i => '0',
