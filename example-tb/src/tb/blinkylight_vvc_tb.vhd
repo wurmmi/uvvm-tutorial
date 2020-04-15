@@ -158,16 +158,17 @@ begin  -- architecture struct
     await_value(running, '1', 220 ns, startup_delay_num_clks_c * clk_period_c, error, "Indicate running status", TB_HW, ID_SEQUENCER);
 
     ---------------------------------------------------------------------------
+    log(ID_LOG_HDR_LARGE, "Register Test Sequence AXI.", TB_REG);
+    start_axi_reg_seq <= true;
+    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT, axi_sb_sv);
+    start_axi_reg_seq <= false;
+
+    ---------------------------------------------------------------------------
     log(ID_LOG_HDR_LARGE, "Register Test Sequence Avalon MM.", TB_REG);
     start_av_mm_reg_seq <= true;
     blinkylight_av_mm_reg_seq(start_av_mm_reg_seq, AVALON_MM_VVCT, av_mm_sb_sv);
     start_av_mm_reg_seq <= false;
 
-    ---------------------------------------------------------------------------
-    log(ID_LOG_HDR_LARGE, "Register Test Sequence AXI.", TB_REG);
-    start_axi_reg_seq <= true;
-    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT, axi_sb_sv);
-    start_axi_reg_seq <= false;
 
     --=========================================================================
     wait for 1000 * clk_period_c;

@@ -86,11 +86,12 @@ package body blinkylight_av_mm_reg_seq_pkg is
 
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
-    for i in 2 to 2 + (num_registers_c-1) loop
+    for i in 2 to num_registers_c - 1 loop
       -- memory uses word addresses
       addr := to_unsigned(i * 4, addr'length);
       -- Write
-      wr_data_v := std_logic_vector(resize(addr*3, addr'length));
+      -- wr_data_v := std_logic_vector(resize(addr * 3, addr'length));
+      wr_data_v := std_logic_vector(addr);
       avalon_mm_write(av_mm_vvc_i, 1,
                       addr, wr_data_v,
                       "Writing value to reg addr " & integer'image(to_integer(addr)));
@@ -101,7 +102,7 @@ package body blinkylight_av_mm_reg_seq_pkg is
                       "Check data in reg addr " & integer'image(to_integer(addr)));
     end loop;
 
-    await_completion(av_mm_vvc_i, 1, num_registers_c * axi_access_time_c, "Waiting for restoring register defaults.");
+    await_completion(av_mm_vvc_i, 1, num_registers_c * axi_access_time_c, "Waiting for write-read sequence.");
   end procedure blinkylight_av_mm_reg_seq;
 
 end package body blinkylight_av_mm_reg_seq_pkg;

@@ -59,32 +59,51 @@ package body blinkylight_axi_reg_seq_pkg is
     variable axi_sb_i : inout t_generic_sb) is
 
     variable wr_data_v : std_logic_vector(31 downto 0);
-    variable cmd_idx_v : natural;
+    variable addr      : unsigned(31 downto 0);
   begin
 
     await_value(start_i, true, 0 ns, 10 ns, error, "Wait for AXI_REG_SEQ to enable start.", TB_REG, ID_SEQUENCER);
 
+    log(ID_LOG_HDR, "Check macic number register.", TB_REG);
+    ---------------------------------------------------------------------------
+    axilite_check(axi_vvc_i, 1,
+                    to_unsigned(0, wr_data_v'length), x"4711ABCD",
+                    "Check magic value register");
+    await_completion(axi_vvc_i, 1, 2*axi_access_time_c, "Waiting to read magic number reg.");
+
+    log(ID_LOG_HDR, "Test LED control register.", TB_REG);
+    ---------------------------------------------------------------------------
+    -- Write
+    wr_data_v := x"000000C4";
+    axilite_write(axi_vvc_i, 1,
+                    to_unsigned(1*4, wr_data_v'length), wr_data_v,
+                    "Writing value to LED control reg.");
+
+    -- Read back
+    axilite_check(axi_vvc_i, 1,
+                    to_unsigned(1*4, wr_data_v'length), wr_data_v,
+                    "Check data in LED control reg.");
+    await_completion(axi_vvc_i, 1, 4*axi_access_time_c, "Waiting to read led control reg.");
+
+
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
-
-
-    -- TODO: check first register here (magic number)
-
-
-    for addr in 1 to num_registers_c - 1 loop
+    for i in 2 to num_registers_c - 1 loop
+      -- memory uses word addresses
+      addr := to_unsigned(i * 4, addr'length);
       -- Write
-      wr_data_v := std_logic_vector(to_unsigned(addr * 3, wr_data_v'length));
+      wr_data_v := std_logic_vector(addr);
       axilite_write(axi_vvc_i, 1,
-                    to_unsigned(addr, 32), wr_data_v,
-                    "Writing inverted reset value to register address " & integer'image(addr));
+                    addr, wr_data_v,
+                    "Writing inverted reset value to register address " & integer'image(to_integer(addr)));
 
       -- Read back
       axilite_check(axi_vvc_i, 1,
-                    to_unsigned(addr, 32), wr_data_v,
-                    "Check data in register address " & integer'image(addr));
+                    addr, wr_data_v,
+                    "Check data in register address " & integer'image(to_integer(addr)));
     end loop;
 
-    await_completion(axi_vvc_i, 1, num_registers_c*4 * axi_access_time_c, "Waiting for restoring register defaults.");
+    await_completion(axi_vvc_i, 1, num_registers_c*3 * axi_access_time_c, "Waiting for write-read sequence.");
   end procedure blinkylight_axi_reg_seq;
 
 end package body blinkylight_axi_reg_seq_pkg;
