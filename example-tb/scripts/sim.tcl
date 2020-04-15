@@ -23,8 +23,8 @@ puts "Starting simulation."
 puts "-----------------------------------------------------------------------"
 
 set log_dir "../log"
-set wlf_log_filename "$log_dir/sim_log.wlf"
-set sim_log_filename "$log_dir/sim_log.log"
+set wlf_log_filename "$log_dir/sim_testbench.wlf"
+set sim_log_filename "$log_dir/sim_testbench.log"
 
 set design "blinkylight_vvc_tb"
 set vsim_param ""

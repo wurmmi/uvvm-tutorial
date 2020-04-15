@@ -14,13 +14,25 @@ describes the testbench architecture as a block diagram
 
 At this point, we have enough information and are ready to start working with the example project.
 
+\subsubsection{Project environment}
+
+Let's start with getting to know the projects' environment setup. \\
+In this part we will compile the UVVM library and the DUV, and run the simulation of our first example testbench!
+
 \begin{enumerate}
   \item Open the example-tb folder in the repository.
         You will find a Makefile, that's used to simplify the usage of this project. It builds an abstraction layer to the underlaying ModelSim commands.
-  \item Call \texttt{make help}. \\
-        This shows all the actions, that this project provides.
+  \item \texttt{make help} is your friend. \\
+        It shows all the actions, that this project provides.
+  \item Call \texttt{make ip}. \\
+        This compiles all the VHDL files, that belong to the DUV.\\
+        Call this target, whenever your DUVs RTL code changed and you want to simulate it.
+  \item Call \texttt{make uvvm}. \\
+        This compiles several required components of the UVVM library. \\
+        That only needs to be done once.
+  \item Call \texttt{make test}. \\
+        This compiles the testbench files and runs the simulation.
+  \item Read through the log that was generated.\\
+        The console output was also logged into the file \textit{example-tb/build/log/sim\_testbench.log}.
 \end{enumerate}
 
-...
-
-(Work In Progress)
