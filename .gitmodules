@@ -1,3 +1,6 @@
 [submodule "hdl-pretty"]
 	path = hdl-pretty
 	url = https://github.com/mithro/hdl-pretty.git
+[submodule "UVVM"]
+	path = UVVM
+	url = https://github.com/wurmmi/UVVM.git
