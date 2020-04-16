@@ -12,3 +12,5 @@
 *.toc
 *.fdb_latexmk
 *.pdf
+
+!img/*.pdf
