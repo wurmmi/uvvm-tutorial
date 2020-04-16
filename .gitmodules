@@ -1,6 +1,3 @@
-[submodule "UVVM"]
-	path = UVVM
-	url = git@github.com:UVVM/UVVM.git
 [submodule "hdl-pretty"]
 	path = hdl-pretty
 	url = https://github.com/mithro/hdl-pretty.git
