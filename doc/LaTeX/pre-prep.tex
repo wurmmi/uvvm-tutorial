@@ -1,7 +1,7 @@
 \section{Prerequisites}
 
 This tutorial requires the ModelSim simulator software to be installed.
-Furthermore, it is recommended to work on a PC that runs a Linux operating system.
+Furthermore, it is highly recommended to work on a PC that runs a Linux operating system. The tutorial was developed using Ubuntu 18.04 LTS.
 
 \section{Preparation}
 
@@ -15,7 +15,11 @@ following steps in advance.
 Several sources required by this tutorial can be found in a GitHub repository.\\
 Download, or clone the repository.\\
 \\
-\texttt{git clone \textendash \textendash recursive https://github.com/wurmmi/uvvm-tutorial.git }
+\textit{(NOTE: This repository is still a work in progress, as of April 16th, 2020.)}
+\\
+\\
+\texttt{git clone -{}-recursive https://github.com/wurmmi/uvvm-tutorial.git }\\
+
 
 \subsection{Install ModelSim}
 
@@ -24,10 +28,10 @@ Any version of ModelSim should satisfy this tutorials' requirement.\\
 In case you are using ModelSim Intel Starter Version, you might need to
 create a symlink in the installation directory.
 \begin{itemize}
-  \item Go to the ModelSim installation directory\\
-        (e.g. \texttt{/opt/intelFPGA/19.1/modelsim\_ase})
-  \item Create a symlink from \texttt{linuxaloem} to \texttt{linuxpe}.\\
-        (\texttt{sudo ln -s linuxaloem/ linuxpe})
+      \item Go to the ModelSim installation directory\\
+            (e.g. \texttt{/opt/intelFPGA/19.1/modelsim\_ase})
+      \item Create a symlink from \texttt{linuxaloem} to \texttt{linuxpe}.\\
+            (\texttt{sudo ln -s linuxaloem/ linuxpe})
 \end{itemize}
 
 Verify, that ModelSim can be found. Execute the following command in a command line.\\
@@ -35,5 +39,6 @@ Verify, that ModelSim can be found. Execute the following command in a command l
 \texttt{vsim -version}\\
 \\
 In case this fails, please work through the section ``Install Intel Modelsim''
-in \href{../install-modelsim-on-ubuntu.pdf}{this installation guide}.
+in \href{../install-modelsim-on-ubuntu.pdf}{this installation guide} (doc/install-modelsim-on-ubuntu.pdf).
 
+\newpage

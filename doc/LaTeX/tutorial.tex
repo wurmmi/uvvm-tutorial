@@ -1,51 +1,38 @@
+\section{Tutorial}
 
-\include{define}
+This tutorial guides you through the example project that was developed.
 
-\author{Michael Wurm}
+\subsection{Device Under Verification (DUV)}
 
-\begin{document}
+describes the DUV (block diagram)
 
-% TITLEPAGE
-\newcommand{\UebungNr}{UVVM Tutorial}
-\newcommand{\UebungTopic}{A brief introduction to UVVM, with a\\
-	tutorial on how to use it in an example testbench.}
-\input{titlepage.tex}
-\clearpage
+\subsection{Testbench Architecture}
 
-\newpage
-\thispagestyle{empty}
-\tableofcontents
-\newpage
-\setcounter{page}{1}  % start counting pages here
+describes the testbench architecture as a block diagram
 
-% HEADER AND FOOTER
-%\pagestyle{fancy}     % eigener Seitenstil
-\thispagestyle{empty}
-\begin{minipage}[b][2.4cm]{0.7\textwidth}
-	\noindent
-	\raggedright
-	\begin{large}\textbf{%
-			FH-OOE / Hagenberg / ESD\\
-			\ \\
-		}\end{large}
-	Michael Wurm \copyright\,\the\year\\
-	\begin{large}
-		\textit{Practical FPGA Applications}\\
-		\vspace{0.0em} \textit{Introduction and Tutorial to UVVM }%
-	\end{large}
-\end{minipage}
-\hfill
-\includegraphics[height=2.2cm]{./img/FhOOeLogoFeb2005}
-\horizontalLine{0.12mm}
+\subsection{Hands-On}
 
-%\chead{Dokumentation}
-%\rhead{Michael Wurm}
-\lfoot{}
-\cfoot{-\thepage-}
-\rfoot{}
-\noindent
+At this point, we have enough information and are ready to start working with the example project.
 
-% BEGINNING OF ELABORATION
-\input{elaboration.tex}
+\subsubsection{Project environment}
 
-\end{document}
+Let's start with getting to know the projects' environment setup. \\
+In this part we will compile the UVVM library and the DUV, and run the simulation of our first example testbench!
+
+\begin{enumerate}
+  \item Open the example-tb folder in the repository.
+        You will find a Makefile, that's used to simplify the usage of this project. It builds an abstraction layer to the underlaying ModelSim commands.
+  \item \texttt{make help} is your friend. \\
+        It shows all the actions, that this project provides.
+  \item Call \texttt{make ip}. \\
+        This compiles all the VHDL files, that belong to the DUV.\\
+        Call this target, whenever your DUVs RTL code changed and you want to simulate it.
+  \item Call \texttt{make uvvm}. \\
+        This compiles several required components of the UVVM library. \\
+        That only needs to be done once.
+  \item Call \texttt{make test}. \\
+        This compiles the testbench files and runs the simulation.
+  \item Read through the log that was generated.\\
+        The console output was also logged into the file \textit{example-tb/build/log/sim\_testbench.log}.
+\end{enumerate}
+

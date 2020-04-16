@@ -5,12 +5,12 @@
 
 % Packages
 \usepackage[left=2.5cm,
-			right=2.5cm,
-			bottom=2cm,
-			top=2cm,
-			includeheadfoot]{geometry}
+	right=2.5cm,
+	bottom=2cm,
+	top=2cm,
+	includeheadfoot]{geometry}
 \usepackage{booktabs}
-\usepackage[ngerman]{babel}
+% \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{textcomp} %fuer Sonderzeichen wie bspw. µ
 \usepackage{ucs}
@@ -36,13 +36,13 @@
 \usepackage{xargs}		% for more than one optional argument in \newcommand
 
 \usepackage[pdfborder={0 0 0 [0 1]},
-			pdfauthor={Wurm},
-			pdftitle={RRT5 Uebung},
-			pdfsubject={RRT5 Uebung},
-			colorlinks=true,
-			linkcolor=black,
-			citecolor=black,
-			urlcolor=blue] {hyperref}
+	pdfauthor={Wurm},
+	pdftitle={UVVM Tutorial},
+	pdfsubject={UVVM Tutorial},
+	colorlinks=true,
+	linkcolor=black,
+	citecolor=black,
+	urlcolor=blue] {hyperref}
 
 \definecolor{mygray}{rgb}{0.97,0.97,0.97}
 
@@ -65,19 +65,19 @@
 
 \lstset
 {
-	literate={ö}{{\"o}}1
-	{ä}{{\"a}}1
-	{ü}{{\"u}}1
-	{ß}{{\ss}}1
-	{é}{{\'e}}1
-	{€}{{\euro}}1,
-	inputencoding=ansinew,
-	extendedchars=true,
-	basicstyle=\scriptsize\ttfamily,
-	numberstyle=\scriptsize,
-	breaklines=true,
-	tabsize=2,
-	numbersep=5pt
+literate={ö}{{\"o}}1
+{ä}{{\"a}}1
+{ü}{{\"u}}1
+{ß}{{\ss}}1
+{é}{{\'e}}1
+{€}{{\euro}}1,
+inputencoding=ansinew,
+extendedchars=true,
+basicstyle=\scriptsize\ttfamily,
+numberstyle=\scriptsize,
+breaklines=true,
+tabsize=2,
+numbersep=5pt
 }
 
 \lstdefinestyle{customcpp}
@@ -94,20 +94,20 @@
 	sensitive=true,							  % true is keyword, TruE is not
 	keywordstyle=\color{blue}\bfseries,		  % style of keywords
 	otherkeywords={	bool,					  % define additional keywords
-					NULL,
-					using,
-					public,
-					private,
-					class,
-					namespace,
-					nullptr,
-					size_t,
-					this,
-					true,
-					false,
-				    \#ifdef,
-				    \#ifndef,
-				    \#endif },
+			NULL,
+			using,
+			public,
+			private,
+			class,
+			namespace,
+			nullptr,
+			size_t,
+			this,
+			true,
+			false,
+			\#ifdef,
+			\#ifndef,
+			\#endif },
 	tabsize=4,								  % one tab equals 4 spaces
 	showspaces=false,						  % show symbol ,_, instead of space
 	showstringspaces=false,					  % show symbol ,_, instead of space in strings
@@ -198,7 +198,7 @@
 		\centering
 		\includegraphics[width=#1\textwidth,angle=#2]{\string"#4"}
 		\caption{\textit{#3}}
-	%	\label{key}
+		%	\label{key}
 	\end{figure}
 }
 
