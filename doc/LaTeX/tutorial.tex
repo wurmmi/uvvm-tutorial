@@ -44,7 +44,7 @@ In this part we will compile the UVVM library and the DUV, and run the simulatio
       \item Call \texttt{make test}. \\
             This compiles the testbench files and runs the simulation.
       \item Read through the log that was generated.\\
-            The console output was also logged into the file \textit{example-tb/build/log/sim\_testbench.log}.
+            The console output was also logged into \href{example-tb/build/log/sim\_testbench.log}{a log file}\footnote{example-tb/build/log/sim\_testbench.log}.
 \end{enumerate}
 
 %------------------------------------------------------------------------------
@@ -53,8 +53,7 @@ In this part we will compile the UVVM library and the DUV, and run the simulatio
 The DUV includes a memory that can be read and written through an AXI memory mapped interface. In this part, we will read through the existing AXI test sequence.
 
 \begin{enumerate}
-      \item Open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}.\\
-            (example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd).
+      \item Open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}\footnote{example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd}.
       \item Check out the main AXI VVC functions.
             \begin{itemize}
                   \item \texttt{axilite\_write()}\\
@@ -71,6 +70,8 @@ The DUV includes a memory that can be read and written through an AXI memory map
                   \item Writing to a read-only register is not allowed. Thus, we expect the call \texttt{axilite\_write()} to fail and raise a \texttt{TB\_FAILURE}.
                   \item We need to tell UVVM that we are expecting this failure. By default, the testbench execution is stopped after the occurance of a single failure.
                   \item Two functions need to be called to set expected failures. These are \texttt{increment\_expected\_alerts()} and \texttt{set\_alert\_stop\_limit()}.
+                  \item At the end of the testbench execution log, there is a report in the form of a table, that shows the number of alerts that occurred during the simulation run. See, that the number of \textit{expected} alerts matches the number of \textit{regarded} alerts. (The latter should better be called \textit{occured} in my opinion...).\\
+                        However, this means that writing to the read-only register failed as expected, and our test case was successful.
             \end{itemize}
 \end{enumerate}
 
@@ -80,7 +81,15 @@ The DUV includes a memory that can be read and written through an AXI memory map
 In this part, we will write a test sequence that verifies the correct functionality of this memory.
 
 \begin{enumerate}
-      \item Again, open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}.\\
-            (example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd).
+      \item Again, open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}\footnote{example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd}.
       \item Scroll to the end of the file, where you will find a ``TODO'' section.
+      \item Write a test sequence, that runs a write-read test on all registers of the internal memory. \\
+            \\
+            For information about the memory structure, look at the \href{example-tb/src/include/blinkylight.h}{C include file}\footnote{example-tb/src/include/blinkylight.h}.\\
+            Furthermore, taking a look at the already existing test sequence for the Avalon MM interface is a good point to begin with. Find it in the \href{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}{Avalon MM test sequence file}\footnote{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}.\\
+
+      \item Run the test sequence with \texttt{make test}.\\
+            Remember, that this requires UVVM to be built once (\texttt{make uvvm}) and the DUV to be built (\texttt{make ip}) each time you changed the DUVs' RTL.
+
+      \item Your test sequence should run successfully and output logs to the command line. Look at these logs, to evaluate your test sequence.
 \end{enumerate}
