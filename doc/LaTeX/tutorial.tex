@@ -50,7 +50,7 @@ In this part we will compile the UVVM library and the DUV, and run the simulatio
 %------------------------------------------------------------------------------
 \subsubsection{Read through the AXI test sequence}
 
-The DUV includes a memory that can be read and written through an AXI memory mapped interface. In this part, we will read through the existing AXI test sequence.
+The DUV includes a memory that can be accessed through an AXI memory mapped interface. In this part, we will read through the existing AXI test sequence code.
 
 \begin{enumerate}
       \item Open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}\footnote{example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd}.
@@ -65,7 +65,7 @@ The DUV includes a memory that can be read and written through an AXI memory map
                   \item \texttt{await\_completion()}\\
                         This function waits on a given VVC to complete its action queue. In case the VVC exceeds the given timeout, an error is raised.\\
             \end{itemize}
-      \item Try to write a register that is read-only
+      \item Try to write a register that is read-only.
             \begin{itemize}
                   \item Writing to a read-only register is not allowed. Thus, we expect the call \texttt{axilite\_write()} to fail and raise a \texttt{TB\_FAILURE}.
                   \item We need to tell UVVM that we are expecting this failure. By default, the testbench execution is stopped after the occurance of a single failure.
@@ -86,10 +86,17 @@ In this part, we will write a test sequence that verifies the correct functional
       \item Write a test sequence, that runs a write-read test on all registers of the internal memory. \\
             \\
             For information about the memory structure, look at the \href{example-tb/src/include/blinkylight.h}{C include file}\footnote{example-tb/src/include/blinkylight.h}.\\
-            Furthermore, taking a look at the already existing test sequence for the Avalon MM interface is a good point to begin with. Find it in the \href{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}{Avalon MM test sequence file}\footnote{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}.\\
+            Furthermore, taking a look at the already existing test sequence for the Avalon MM interface is a good point to begin with. Find it in the \href{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}{Avalon MM test sequence file}\footnote{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}.
 
       \item Run the test sequence with \texttt{make test}.\\
             Remember, that this requires UVVM to be built once (\texttt{make uvvm}) and the DUV to be built (\texttt{make ip}) each time you changed the DUVs' RTL.
 
       \item Your test sequence should run successfully and output logs to the command line. Look at these logs, to evaluate your test sequence.
 \end{enumerate}
+
+%------------------------------------------------------------------------------
+\subsubsection{Realize the similarity between the different interfaces}
+
+At this point, we have two working test sequences for the memory. One that uses an AXI interface, and another that uses an Avalon MM interface.\\
+\\
+By comparing the two test sequences, we realize, that they are pretty much the exact same code. This is a major advantage of using VVCs. Imagine the following situation. We have a working DUV, that has an AXI interface. For some reason, the designer decides to swap it against an Avalon MM bus. In a simple ``selfmade'' testbench, this would require a major code change. However, in our UVVM verification environment, this simply means to switch out the VVC component, re-wire the bus signals in a single place in code, and rename the VVC functions (e.g. \texttt{axilite\_write()} to \texttt{avalon\_mm\_write()}).
