@@ -95,22 +95,12 @@ package body axi_reg_seq_pkg is
 
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
-    for i in 2 to num_registers_c - 1 loop
-      -- memory uses word addresses
-      addr      := to_unsigned(i * 4, addr'length);
-      -- Write
-      wr_data_v := std_logic_vector(addr);
-      axilite_write(axi_vvc_i, 1,
-                    addr, wr_data_v,
-                    "Writing data to reg addr " & integer'image(to_integer(addr)));
+    --
+    -- TODO: write and read all registers of the memory
+    --
+    ---------------------------------------------------------------------------
 
-      -- Read back
-      axilite_check(axi_vvc_i, 1,
-                    addr, wr_data_v,
-                    "Check data in reg addr " & integer'image(to_integer(addr)));
-    end loop;
 
-    await_completion(axi_vvc_i, 1, num_registers_c*3 * axi_access_time_c, "Waiting for write-read sequence.");
   end procedure blinkylight_axi_reg_seq;
 
 end package body axi_reg_seq_pkg;
