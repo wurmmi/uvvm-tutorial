@@ -1,5 +1,5 @@
 src/tb/blinkylight_uvvm_pkg.vhd
-src/tb/sequences/blinkylight_av_mm_reg_seq_pkg.vhd
-src/tb/sequences/blinkylight_axi_reg_seq_pkg.vhd
-src/tb/blinkylight_vvc_th.vhd
-src/tb/blinkylight_vvc_tb.vhd
+src/tb/sequences/av_mm_reg_seq_pkg.vhd
+src/tb/sequences/axi_reg_seq_pkg.vhd
+src/tb/blinkylight_th.vhd
+src/tb/blinkylight_tb.vhd

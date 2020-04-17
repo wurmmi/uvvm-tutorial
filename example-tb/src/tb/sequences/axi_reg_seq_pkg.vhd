@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_axi_reg_seq_pkg.vhd
+--! @file      axi_reg_seq_pkg.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
 --! @copyright 2017-2019 Michael Wurm
 --! @brief     BlinkyLight AXI register test sequence.
@@ -30,11 +30,11 @@ library bitvis_vip_scoreboard;
 use bitvis_vip_scoreboard.slv_sb_pkg.all;
 
 
---! @brief Package declaration of blinkylight_axi_reg_seq_pkg
+--! @brief Package declaration of axi_reg_seq_pkg
 --! @details
 --! The BlinkyLight AXI registers test sequence.
 
-package blinkylight_axi_reg_seq_pkg is
+package axi_reg_seq_pkg is
 
   -----------------------------------------------------------------------------
   -- Procedures
@@ -47,10 +47,10 @@ package blinkylight_axi_reg_seq_pkg is
 
   --! @}
 
-end package blinkylight_axi_reg_seq_pkg;
+end package axi_reg_seq_pkg;
 
 
-package body blinkylight_axi_reg_seq_pkg is
+package body axi_reg_seq_pkg is
 
   procedure blinkylight_axi_reg_seq (
     signal start_i   : in    boolean;
@@ -113,4 +113,4 @@ package body blinkylight_axi_reg_seq_pkg is
     await_completion(axi_vvc_i, 1, num_registers_c*3 * axi_access_time_c, "Waiting for write-read sequence.");
   end procedure blinkylight_axi_reg_seq;
 
-end package body blinkylight_axi_reg_seq_pkg;
+end package body axi_reg_seq_pkg;

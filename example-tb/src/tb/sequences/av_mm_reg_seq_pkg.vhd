@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_av_mm_reg_seq_pkg.vhd
+--! @file      av_mm_reg_seq_pkg.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
 --! @copyright 2017-2019 Michael Wurm
 --! @brief     BlinkyLight Avalon MM register test sequence.
@@ -30,11 +30,11 @@ library bitvis_vip_scoreboard;
 use bitvis_vip_scoreboard.slv_sb_pkg.all;
 
 
---! @brief Package declaration of blinkylight_av_mm_reg_seq_pkg
+--! @brief Package declaration of av_mm_reg_seq_pkg
 --! @details
 --! The BlinkyLight Avalon MM registers test sequence.
 
-package blinkylight_av_mm_reg_seq_pkg is
+package av_mm_reg_seq_pkg is
 
   -----------------------------------------------------------------------------
   -- Procedures
@@ -48,10 +48,10 @@ package blinkylight_av_mm_reg_seq_pkg is
 
   --! @}
 
-end package blinkylight_av_mm_reg_seq_pkg;
+end package av_mm_reg_seq_pkg;
 
 
-package body blinkylight_av_mm_reg_seq_pkg is
+package body av_mm_reg_seq_pkg is
 
   procedure blinkylight_av_mm_reg_seq (
     signal start_i      : in    boolean;
@@ -115,4 +115,4 @@ package body blinkylight_av_mm_reg_seq_pkg is
 
   end procedure blinkylight_av_mm_reg_seq;
 
-end package body blinkylight_av_mm_reg_seq_pkg;
+end package body av_mm_reg_seq_pkg;
