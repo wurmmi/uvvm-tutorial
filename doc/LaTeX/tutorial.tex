@@ -2,12 +2,14 @@
 
 This tutorial guides you through the example project that was developed.
 
+%------------------------------------------------------------------------------
 \subsection{Device Under Verification (DUV)}
 
 The Device Under Verification (DUV) is a very basic LED driver, that has some additional accessible memory inside. The interface this memory uses, is compile-time configurable between an AXIlite, or an Avalon MM protocol.
 
 \includepicture[0.6][0]{DUV Block Diagram}{img/draw-io/duv}
 
+%------------------------------------------------------------------------------
 \subsection{Testbench Architecture}
 
 The architecture of the demo testbench is shown in the block diagram below.
@@ -17,10 +19,12 @@ The architecture of the demo testbench is shown in the block diagram below.
 The testbench instantiates a test harness and runs the actual test sequences. It further generates clock and reset signals for the DUV.
 The test harness instantiates several VVCs and the DUV. Dotted lines in the block diagram represent connections, that exist within the UVVM framework and don't need to be connected explicitly.
 
+%------------------------------------------------------------------------------
 \subsection{Hands-On}
 
 At this point, we have enough information and are ready to start working with the example project.
 
+%------------------------------------------------------------------------------
 \subsubsection{Project environment}
 
 Let's start with getting to know the projects' environment setup. \\
@@ -42,3 +46,6 @@ In this part we will compile the UVVM library and the DUV, and run the simulatio
       \item Read through the log that was generated.\\
             The console output was also logged into the file \textit{example-tb/build/log/sim\_testbench.log}.
 \end{enumerate}
+
+%------------------------------------------------------------------------------
+\subsubsection{}
