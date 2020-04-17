@@ -22,7 +22,7 @@ entity blinkylight is
     --! Build Avalon MM Interface
     avalon_mm_inc_g : boolean := true;
     --! Build AXI4-Lite Interface
-    axi4_lite_inc_g : boolean := true);
+    axi4_lite_inc_g : boolean := false);
   port (
     --! @name Clocks and resets
     --! @{
