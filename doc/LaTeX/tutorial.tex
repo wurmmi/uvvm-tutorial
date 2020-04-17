@@ -48,4 +48,39 @@ In this part we will compile the UVVM library and the DUV, and run the simulatio
 \end{enumerate}
 
 %------------------------------------------------------------------------------
-\subsubsection{}
+\subsubsection{Read through the AXI test sequence}
+
+The DUV includes a memory that can be read and written through an AXI memory mapped interface. In this part, we will read through the existing AXI test sequence.
+
+\begin{enumerate}
+      \item Open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}.\\
+            (example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd).
+      \item Check out the main AXI VVC functions.
+            \begin{itemize}
+                  \item \texttt{axilite\_write()}\\
+                        Writes data to a given address.\\
+                        This function is non-blocking. It schedules the action in the UVVM sequencer queue.
+                  \item \texttt{axilite\_check()}\\
+                        Reads data from a given address and compares with the given value.\\
+                        This function is non-blocking. It schedules the action in the UVVM sequencer queue.
+                  \item \texttt{await\_completion()}\\
+                        This function waits on a given VVC to complete its action queue. In case the VVC exceeds the given timeout, an error is raised.\\
+            \end{itemize}
+      \item Try to write a register that is read-only
+            \begin{itemize}
+                  \item Writing to a read-only register is not allowed. Thus, we expect the call \texttt{axilite\_write()} to fail and raise a \texttt{TB\_FAILURE}.
+                  \item We need to tell UVVM that we are expecting this failure. By default, the testbench execution is stopped after the occurance of a single failure.
+                  \item Two functions need to be called to set expected failures. These are \texttt{increment\_expected\_alerts()} and \texttt{set\_alert\_stop\_limit()}.
+            \end{itemize}
+\end{enumerate}
+
+%------------------------------------------------------------------------------
+\subsubsection{Write a memory test sequence}
+
+In this part, we will write a test sequence that verifies the correct functionality of this memory.
+
+\begin{enumerate}
+      \item Again, open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}.\\
+            (example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd).
+      \item Scroll to the end of the file, where you will find a ``TODO'' section.
+\end{enumerate}

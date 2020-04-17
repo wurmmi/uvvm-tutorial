@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 --! @file      axi_reg_seq_pkg.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     BlinkyLight AXI register test sequence.
 -------------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ package body axi_reg_seq_pkg is
 
     await_value(start_i, true, 0 ns, 10 ns, error, "Wait for AXI_REG_SEQ to enable start.", TB_REG, ID_SEQUENCER);
 
-    log(ID_LOG_HDR, "Check macic number register.", TB_REG);
+    log(ID_LOG_HDR, "Check magic number register.", TB_REG);
     ---------------------------------------------------------------------------
     addr := to_unsigned(0, addr'length);
     axilite_check(axi_vvc_i, 1,
@@ -70,7 +70,7 @@ package body axi_reg_seq_pkg is
                   "Check magic value register");
     await_completion(axi_vvc_i, 1, 2*axi_access_time_c, "Waiting to read magic number reg.");
 
-    -- Demonstrate alert handling
+    -- Demonstrate alert handling (write a read-only register)
     increment_expected_alerts(TB_FAILURE, 1);
     set_alert_stop_limit(TB_FAILURE, 2);
     axilite_write(axi_vvc_i, 1,
