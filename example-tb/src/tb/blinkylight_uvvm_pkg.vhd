@@ -18,11 +18,11 @@ package blinkylight_uvvm_pkg is
   constant VERBOSE : boolean := false;
 
   --! Message scopes
-  constant INFO    : string := "BL-INFO";
-  constant DEBUG   : string := "BL-DEBUG";
-  constant TB_HW   : string := "BL-HW";
-  constant TB_REG  : string := "BL-REGS";
-  constant TB_LED  : string := "BL-LED";
+  constant INFO   : string := "BL-INFO";
+  constant DEBUG  : string := "BL-DEBUG";
+  constant TB_HW  : string := "BL-HW";
+  constant TB_REG : string := "BL-REGS";
+  constant TB_LED : string := "BL-LED";
 
   --! GPIO VVC instance numbers
   constant LEDS_VVC_INST : natural := 1;
