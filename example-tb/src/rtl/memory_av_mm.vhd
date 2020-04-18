@@ -3,6 +3,10 @@
 --! @author    Super Easy Register Scripting Engine (SERSE)
 --! @copyright 2017-2020 Michael Wurm
 --! @brief     Avalon MM register interface for BlinkyLight
+--
+-- Disclaimer: This is not an example for how to implement an Avalon
+--             memory mapped slave. However, it serves the purpose for
+--             this tutorial.
 -------------------------------------------------------------------------------
 
 library ieee;
