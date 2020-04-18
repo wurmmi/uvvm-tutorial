@@ -69,7 +69,7 @@ The DUV includes a memory that can be accessed through an AXI memory mapped inte
             \begin{itemize}
                   \item Writing to a read-only register is not allowed. Thus, we expect the call \texttt{axilite\_write()} to fail and raise a \texttt{TB\_FAILURE}.
                   \item We need to tell UVVM that we are expecting this failure. By default, the testbench execution is stopped after the occurance of a single failure.
-                  \item Two functions need to be called to set expected failures. These are \texttt{increment\_expected\_alerts()} and \texttt{set\_alert\_stop\_limit()}.
+                  \item Two functions need to be called to set expected failures. \\These are \texttt{increment\_expected\_alerts()} and \texttt{set\_alert\_stop\_limit()}.
                   \item At the end of the testbench execution log, there is a report in the form of a table, that shows the number of alerts that occurred during the simulation run. See, that the number of \textit{expected} alerts matches the number of \textit{regarded} alerts. (The latter should better be called \textit{occured} in my opinion...).\\
                         However, this means that writing to the read-only register failed as expected, and our test case was successful.
             \end{itemize}
@@ -81,7 +81,7 @@ The DUV includes a memory that can be accessed through an AXI memory mapped inte
 In this part, we will write a test sequence that verifies the correct functionality of this memory.
 
 \begin{enumerate}
-      \item Again, open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}\footnote{example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd}.
+      \item Open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}\footnote{example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd}.
       \item Scroll to the end of the file, where you will find a ``TODO'' section.
       \item Write a test sequence, that runs a write-read test on all registers of the internal memory. \\
             \\
@@ -100,3 +100,35 @@ In this part, we will write a test sequence that verifies the correct functional
 At this point, we have two working test sequences for the memory. One that uses an AXI interface, and another that uses an Avalon MM interface.\\
 \\
 By comparing the two test sequences, we realize, that they are pretty much the exact same code. This is a major advantage of using VVCs. Imagine the following situation. We have a working DUV, that has an AXI interface. For some reason, the designer decides to swap it against an Avalon MM bus. In a simple ``selfmade'' testbench, this would require a major code change. However, in our UVVM verification environment, this simply means to switch out the VVC component, re-wire the bus signals in a single place in code, and rename the VVC functions (e.g. \texttt{axilite\_write()} to \texttt{avalon\_mm\_write()}).
+
+\subsubsection{(optional) The scoreboard}
+
+The UVVM scoreboard is a useful tool to acquire some statistical data with test sequences.
+
+\begin{enumerate}
+      \item Open the \href{../../example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd} {Avalon MM test sequence file}\footnote{example-tb/src/tb/sequences/av\_mm\_reg\_seq\_pkg.vhd}.
+      \item Scroll to the write-read test section.
+      \item Familiarize with the scoreboard functions that are used.
+      \item Run \texttt{make test} and find the log output that was produced by the \texttt{scoreboard.report\_counters()} function.
+\end{enumerate}
+
+\subsubsection{(optional) Write a LED test sequence}
+
+The DUV acts as a driver to an array of eight LEDs. The respective value the LEDs display are a representation of the \texttt{LED\_CONTROL} register.\\
+\\
+To verify the correct functionality of this LED driver part, we will implement an extension to the AXI test sequence we previously worked on.
+
+\begin{enumerate}
+      \item Open the \href{../../example-tb/src/tb/blinkylight\_th.vhd} {test harness file}\footnote{example-tb/src/tb/blinkylight\_th.vhd}.
+      \item Scroll to the ``instantiations'' section of the file, where you will find a GPIO VVC that is already instantiated and hooked up to the LED output of the DUV.
+      \item Open the \href{../../example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd} {AXI register test sequence file}\footnote{example-tb/src/tb/sequences/axi\_reg\_seq\_pkg.vhd}, which we already know from a previous task in the tutorial.
+      \item In the existing test sequence, there is a part that sets a value to the \texttt{LED\_CONTROL} register and reads back its value, to verify the register access. However, this does not verify that the value was actually routed through all the way to the LED output. Let's verify that.
+      \item Use the GPIO VVC to check the value of the LED output.\\
+            \\
+            Each UVVM VVC is provided along with documentation. Open the \href{../../UVVM/bitvis\_vip\_gpio/doc/gpio\_vvc\_QuickRef.pdf} {documentation for the GPIO VVC}\footnote{UVVM/bitvis\_vip\_gpio/doc/gpio\_vvc\_QuickRef.pdf} to see which functions are available.\\
+            \\
+            \underline{A little hint:}\\
+            Use the \texttt{gpio\_expect(VVCT, vvc\_instance\_idx, data\_exp, timeout, msg)} function.
+      \item Run \texttt{make test} to run the test sequence.
+
+\end{enumerate}

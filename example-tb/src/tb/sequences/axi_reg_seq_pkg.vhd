@@ -92,6 +92,12 @@ package body axi_reg_seq_pkg is
                   "Check data in LED control reg.");
     await_completion(axi_vvc_i, 1, 4*axi_access_time_c, "Waiting to read led control reg.");
 
+    ---------------------------------------------------------------------------
+    --
+    -- TODO: check the LED output lines
+    --
+    ---------------------------------------------------------------------------
+
 
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
