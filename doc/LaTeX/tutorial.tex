@@ -101,6 +101,7 @@ At this point, we have two working test sequences for the memory. One that uses 
 \\
 By comparing the two test sequences, we realize, that they are pretty much the exact same code. This is a major advantage of using VVCs. Imagine the following situation. We have a working DUV, that has an AXI interface. For some reason, the designer decides to swap it against an Avalon MM bus. In a simple ``selfmade'' testbench, this would require a major code change. However, in our UVVM verification environment, this simply means to switch out the VVC component, re-wire the bus signals in a single place in code, and rename the VVC functions (e.g. \texttt{axilite\_write()} to \texttt{avalon\_mm\_write()}).
 
+%------------------------------------------------------------------------------
 \subsubsection{(optional) The scoreboard}
 
 The UVVM scoreboard is a useful tool to acquire some statistical data with test sequences.
@@ -112,6 +113,7 @@ The UVVM scoreboard is a useful tool to acquire some statistical data with test 
       \item Run \texttt{make test} and find the log output that was produced by the \texttt{scoreboard.report\_counters()} function.
 \end{enumerate}
 
+%------------------------------------------------------------------------------
 \subsubsection{(optional) Write a LED test sequence}
 
 The DUV acts as a driver to an array of eight LEDs. The respective value the LEDs display are a representation of the \texttt{LED\_CONTROL} register.\\
@@ -131,4 +133,17 @@ To verify the correct functionality of this LED driver part, we will implement a
             Use the \texttt{gpio\_expect(VVCT, vvc\_instance\_idx, data\_exp, timeout, msg)} function.
       \item Run \texttt{make test} to run the test sequence.
 
+\end{enumerate}
+
+%------------------------------------------------------------------------------
+\newpage
+\subsection{Solutions to the implementation parts}
+
+In this section, the solution to several implementation parts of this tutorial is revealed.
+
+\begin{enumerate}
+      \item Open the repository in a command line, or your favourite Git GUI tool (e.g. GitKraken).
+      \item Checkout the branch called \texttt{solution}.\\
+            \texttt{git checkout solution}
+      \item Now navigate to the respective files that required some implementation and see the solution!
 \end{enumerate}
