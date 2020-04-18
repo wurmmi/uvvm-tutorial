@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 --! @file      memory_axilite.vhd
 --! @author    Super Easy Register Scripting Engine (SERSE)
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     AXI4-Lite register interface for BlinkyLight
 -------------------------------------------------------------------------------
 

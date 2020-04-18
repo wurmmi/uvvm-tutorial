@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017-2019 Michael Wurm
+ * Copyright (C) 2017-2020 Michael Wurm
  * Author: Super Easy Register Scripting Engine (SERSE)
  *
 /* BlinkyLight register map */

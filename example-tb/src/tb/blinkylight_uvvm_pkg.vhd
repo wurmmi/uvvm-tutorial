@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 --! @file      blinkylight_uvvm_pkg.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     BlinkyLight UVVM package for global testbench defines.
 -------------------------------------------------------------------------------
 

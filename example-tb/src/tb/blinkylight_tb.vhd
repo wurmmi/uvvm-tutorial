@@ -86,7 +86,7 @@ begin  -- architecture struct
   -- Instantiations
   -----------------------------------------------------------------------------
 
-  test_harness : entity testbenchlib.blinkylight_vvc_th
+  test_harness : entity testbenchlib.blinkylight_th
     port map (clk_i     => clk,
               rst_n_i   => rst_n,
               running_o => running);

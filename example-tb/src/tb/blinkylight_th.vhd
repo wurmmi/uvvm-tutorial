@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_vvc_th.vhd
+--! @file      blinkylight_th.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     Test harness of blinkylight.
 -------------------------------------------------------------------------------
 
@@ -20,19 +20,19 @@ library bitvis_vip_avalon_mm;
 library bitvis_vip_axilite;
 library bitvis_vip_gpio;
 
---! @brief Entity declaration of blinkylight_vvc_th
+--! @brief Entity declaration of blinkylight_th
 --! @details
 --! The BlinkyLight test harness implementation.
 
-entity blinkylight_vvc_th is
+entity blinkylight_th is
   port (
     clk_i     : in  std_ulogic;
     rst_n_i   : in  std_ulogic;
     running_o : out std_ulogic);
-end entity blinkylight_vvc_th;
+end entity blinkylight_th;
 
 --! Test harness architecture
-architecture struct of blinkylight_vvc_th is
+architecture struct of blinkylight_th is
   -----------------------------------------------------------------------------
   --! @name Internal Wires
   -----------------------------------------------------------------------------

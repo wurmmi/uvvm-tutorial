@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 --! @file      memory_av_mm.vhd
 --! @author    Super Easy Register Scripting Engine (SERSE)
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     Avalon MM register interface for BlinkyLight
 -------------------------------------------------------------------------------
 
