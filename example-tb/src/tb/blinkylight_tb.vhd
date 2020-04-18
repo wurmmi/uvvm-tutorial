@@ -159,7 +159,7 @@ begin  -- architecture struct
     ---------------------------------------------------------------------------
     log(ID_LOG_HDR_LARGE, "Register Test Sequence AXI.", TB_REG);
     start_axi_reg_seq <= true;
-    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT);
+    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT, GPIO_VVCT);
     start_axi_reg_seq <= false;
 
     ---------------------------------------------------------------------------

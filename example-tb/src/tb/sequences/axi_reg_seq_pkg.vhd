@@ -26,6 +26,11 @@ use bitvis_vip_axilite.vvc_methods_pkg.all;
 use bitvis_vip_axilite.td_vvc_framework_common_methods_pkg.all;
 use bitvis_vip_axilite.td_target_support_pkg.all;
 
+library bitvis_vip_gpio;
+use bitvis_vip_gpio.vvc_methods_pkg.all;
+use bitvis_vip_gpio.td_vvc_framework_common_methods_pkg.all;
+use bitvis_vip_gpio.td_target_support_pkg.all;
+
 library bitvis_vip_scoreboard;
 use bitvis_vip_scoreboard.slv_sb_pkg.all;
 
@@ -43,7 +48,8 @@ package axi_reg_seq_pkg is
 
   procedure blinkylight_axi_reg_seq (
     signal start_i   : in    boolean;
-    signal axi_vvc_i : inout t_vvc_target_record);
+    signal axi_vvc_i : inout bitvis_vip_axilite.td_target_support_pkg.t_vvc_target_record;
+    signal gpio_vvc_i : inout bitvis_vip_gpio.td_target_support_pkg.t_vvc_target_record);
 
   --! @}
 
@@ -54,7 +60,8 @@ package body axi_reg_seq_pkg is
 
   procedure blinkylight_axi_reg_seq (
     signal start_i   : in    boolean;
-    signal axi_vvc_i : inout t_vvc_target_record) is
+    signal axi_vvc_i : inout bitvis_vip_axilite.td_target_support_pkg.t_vvc_target_record;
+    signal gpio_vvc_i : inout bitvis_vip_gpio.td_target_support_pkg.t_vvc_target_record) is
 
     variable wr_data_v : std_logic_vector(31 downto 0);
     variable addr      : unsigned(31 downto 0);
@@ -92,12 +99,12 @@ package body axi_reg_seq_pkg is
                   "Check data in LED control reg.");
     await_completion(axi_vvc_i, 1, 4*axi_access_time_c, "Waiting to read led control reg.");
 
+    log(ID_LOG_HDR, "Check LED output.", TB_REG);
     ---------------------------------------------------------------------------
     --
     -- TODO: check the LED output lines
     --
     ---------------------------------------------------------------------------
-
 
     log(ID_LOG_HDR, "Apply write-read sequence on registers.", TB_REG);
     ---------------------------------------------------------------------------
