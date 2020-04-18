@@ -99,7 +99,7 @@ begin  -- architecture struct
   -- Initialize UVVM
   ti_uvvm_engine_inst : entity uvvm_vvc_framework.ti_uvvm_engine;
 
-  -- LEDs
+  -- LED VVC
   gpio_vvc_leds_inst : entity bitvis_vip_gpio.gpio_vvc
     generic map(
       GC_DATA_WIDTH         => led'length,

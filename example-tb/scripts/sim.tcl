@@ -26,7 +26,7 @@ set log_dir "../log"
 set wlf_log_filename "$log_dir/sim_testbench.wlf"
 set sim_log_filename "$log_dir/sim_testbench.log"
 
-set design "blinkylight_vvc_tb"
+set design "blinkylight_tb"
 set vsim_param ""
 set run_time "-all"
 set time_unit "ps"

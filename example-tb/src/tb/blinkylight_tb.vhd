@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_vvc_tb.vhd
+--! @file      blinkylight_tb.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
 --! @copyright 2017-2020 Michael Wurm
 --! @brief     Testbench of blinkylight.
@@ -14,8 +14,8 @@ use blinkylightlib.blinkylight_pkg.all;
 
 library testbenchlib;
 use testbenchlib.blinkylight_uvvm_pkg.all;
-use testbenchlib.blinkylight_av_mm_reg_seq_pkg.all;
-use testbenchlib.blinkylight_axi_reg_seq_pkg.all;
+use testbenchlib.av_mm_reg_seq_pkg.all;
+use testbenchlib.axi_reg_seq_pkg.all;
 
 library uvvm_util;
 context uvvm_util.uvvm_util_context;
@@ -40,15 +40,15 @@ use bitvis_vip_scoreboard.slv_sb_pkg.all;
 use bitvis_vip_scoreboard.generic_sb_support_pkg.all;
 
 
---! @brief Entity declaration of blinkylight_vvc_tb
+--! @brief Entity declaration of blinkylight_tb
 --! @details
 --! The BlinkyLight testbench implementation.
 
-entity blinkylight_vvc_tb is
-end entity blinkylight_vvc_tb;
+entity blinkylight_tb is
+end entity blinkylight_tb;
 
 --! Testbench main architecture
-architecture struct of blinkylight_vvc_tb is
+architecture struct of blinkylight_tb is
   -----------------------------------------------------------------------------
   --! @name Types and Constants
   -----------------------------------------------------------------------------

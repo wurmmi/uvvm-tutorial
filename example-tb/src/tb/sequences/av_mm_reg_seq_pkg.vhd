@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
---! @file      blinkylight_av_mm_reg_seq_pkg.vhd
+--! @file      av_mm_reg_seq_pkg.vhd
 --! @author    Michael Wurm <wurm.michael95@gmail.com>
 --! @copyright 2017-2019 Michael Wurm
 --! @brief     BlinkyLight Avalon MM register test sequence.
@@ -30,11 +30,11 @@ library bitvis_vip_scoreboard;
 use bitvis_vip_scoreboard.slv_sb_pkg.all;
 
 
---! @brief Package declaration of blinkylight_av_mm_reg_seq_pkg
+--! @brief Package declaration of av_mm_reg_seq_pkg
 --! @details
 --! The BlinkyLight Avalon MM registers test sequence.
 
-package blinkylight_av_mm_reg_seq_pkg is
+package av_mm_reg_seq_pkg is
 
   -----------------------------------------------------------------------------
   -- Procedures
@@ -48,10 +48,10 @@ package blinkylight_av_mm_reg_seq_pkg is
 
   --! @}
 
-end package blinkylight_av_mm_reg_seq_pkg;
+end package av_mm_reg_seq_pkg;
 
 
-package body blinkylight_av_mm_reg_seq_pkg is
+package body av_mm_reg_seq_pkg is
 
   procedure blinkylight_av_mm_reg_seq (
     signal start_i      : in    boolean;
@@ -59,7 +59,9 @@ package body blinkylight_av_mm_reg_seq_pkg is
     variable av_mm_sb_i : inout t_generic_sb) is
 
     variable wr_data_v : std_logic_vector(31 downto 0);
+    variable rd_data_v : bitvis_vip_avalon_mm.vvc_cmd_pkg.t_vvc_result;
     variable addr      : unsigned(31 downto 0);
+    variable cmd_idx_v : natural;
   begin
     await_value(start_i, true, 0 ns, 10 ns, error, "Wait for AV_MM_REG_SEQ to enable start.", TB_REG, ID_SEQUENCER);
 
@@ -93,17 +95,24 @@ package body blinkylight_av_mm_reg_seq_pkg is
       addr      := to_unsigned(i * 4, addr'length);
       -- Write
       wr_data_v := std_logic_vector(addr);
+      av_mm_sb_i.add_expected(wr_data_v);
+
       avalon_mm_write(av_mm_vvc_i, 1,
                       addr, wr_data_v,
                       "Writing data to reg addr " & integer'image(to_integer(addr)));
 
       -- Read back
-      avalon_mm_check(av_mm_vvc_i, 1,
-                      addr, wr_data_v,
-                      "Check data in reg addr " & integer'image(to_integer(addr)));
+      avalon_mm_read(av_mm_vvc_i, 1, addr,
+                     "Check data in reg addr " & integer'image(to_integer(addr)));
+      cmd_idx_v := get_last_received_cmd_idx(av_mm_vvc_i, 1);  -- Store the command index (integer) for the last read
+      await_completion(av_mm_vvc_i, 1, cmd_idx_v, 2*axi_access_time_c, "Wait for read to finish");
+      fetch_result(av_mm_vvc_i, 1, cmd_idx_v, rd_data_v, "Fetching result from read operation");
+
+      av_mm_sb_i.check_received(rd_data_v(wr_data_v'range));
     end loop;
 
-    await_completion(av_mm_vvc_i, 1, num_registers_c*2 * axi_access_time_c, "Waiting for write-read sequence.");
+    av_mm_sb_i.report_counters(VOID);
+
   end procedure blinkylight_av_mm_reg_seq;
 
-end package body blinkylight_av_mm_reg_seq_pkg;
+end package body av_mm_reg_seq_pkg;
