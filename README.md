@@ -10,6 +10,14 @@ This tutorial was developed as part of the course "Practical FPGA Applications",
 
 ----
 
+## About this tutorial
+
+Please follow the main [tutorial document](doc/the-tutorial.pdf).
+
+There is also a [presentation](doc/the-presentation.pdf) available, that shows some additional block diagrams to get an overview of the UVVM verification environment.
+
+----
+
 ## Contact
 
 Michael Wurm <<wurm.michael95@gmail.com>>
