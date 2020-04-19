@@ -86,7 +86,7 @@ begin  -- architecture struct
   -- Instantiations
   -----------------------------------------------------------------------------
 
-  test_harness : entity testbenchlib.blinkylight_vvc_th
+  test_harness : entity testbenchlib.blinkylight_th
     port map (clk_i     => clk,
               rst_n_i   => rst_n,
               running_o => running);
@@ -159,7 +159,7 @@ begin  -- architecture struct
     ---------------------------------------------------------------------------
     log(ID_LOG_HDR_LARGE, "Register Test Sequence AXI.", TB_REG);
     start_axi_reg_seq <= true;
-    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT);
+    blinkylight_axi_reg_seq(start_axi_reg_seq, AXILITE_VVCT, GPIO_VVCT);
     start_axi_reg_seq <= false;
 
     ---------------------------------------------------------------------------

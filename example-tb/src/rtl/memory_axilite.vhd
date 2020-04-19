@@ -1,8 +1,12 @@
 -------------------------------------------------------------------------------
 --! @file      memory_axilite.vhd
 --! @author    Super Easy Register Scripting Engine (SERSE)
---! @copyright 2017-2019 Michael Wurm
+--! @copyright 2017-2020 Michael Wurm
 --! @brief     AXI4-Lite register interface for BlinkyLight
+--
+-- Disclaimer: This is not an example for how to implement an Axilite
+--             memory mapped slave. However, it serves the purpose for
+--             this tutorial.
 -------------------------------------------------------------------------------
 
 library ieee;
