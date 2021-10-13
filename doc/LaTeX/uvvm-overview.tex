@@ -19,7 +19,14 @@ The VVC Framework builds an abstraction layer around the Utility Library and add
 Different libraries and frameworks can be used for verification of an RTL design. They make use of different programming languages, such as SystemC or SystemVerilog. The masters courses \textit{Advanced Methods of Verification (AMV2)}, or \textit{Hardware-Software Co-Design (HSC2)} talk about these in detail.\\
 \\
 In order to use those languages, simulators need to be capable to work with those languages. This often requires to buy a license for language support. As a company, license costs are a factor to consider. Cost optimization in development processes is constantly driven forward. Thus, avoiding the need of a simulator license with support for several languages can help lowering costs.\\
-UVVM uses VHDL only, which - for above mentioned arguments - is a good reason to choose it for a project. Another reason is, that it is an open-source library and is continuously developing and improving.
+There are several open source verification frameworks and methodologies which can be used with free and open source simulators (see \href{https://larsasplund.github.io/github-facts/}{GitHub Facts About the HDL Industry}):
+\begin{itemize}
+\item \href{https://github.com/cocotb/cocotb}{cocotb}: coroutine based cosimulation library for writing VHDL and Verilog testbenches in Python.
+\item \href{https://github.com/OSVVM/OSVVM}{OSVVM}: Open Source VHDL Verification Methodology.
+\item \href{https://github.com/UVVM/UVVM}{UVVM}: Universal VHDL Verification Methodology.
+\item \href{https://github.com/VUnit/vunit}{VUnit}: unit testing framework for VHDL/SystemVerilog.
+\end{itemize}
+For above mentioned arguments, is a good reason to choose these for a project. Another reason is, they are open-source libraries and are continuously developing and improving.
 
 %------------------------------------------------------------------------------
 \subsection{Structure and Architecture}
